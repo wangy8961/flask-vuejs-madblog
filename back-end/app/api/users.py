@@ -1,3 +1,4 @@
+import re
 from flask import request, jsonify, url_for
 from app import db
 from app.api import bp
@@ -9,20 +10,23 @@ from app.models import User
 @bp.route('/users', methods=['POST'])
 def create_user():
     '''注册一个新用户'''
-    data = request.get_json() or {}
+    data = request.get_json()
+    if not data:
+        return bad_request('You must post JSON data.')
+
     message = {}
-    if 'username' not in data or not data['username']:
+    if 'username' not in data or not data.get('username', None):
         message['username'] = 'Please provide a valid username.'
 
     pattern = '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-    if 'email' not in data or not re.match(pattern, data['email']):
+    if 'email' not in data or not re.match(pattern, data.get('email', None)):
         message['email'] = 'Please provide a valid email address.'
 
-    if 'password' not in data or not data['password']:
+    if 'password' not in data or not data.get('password', None):
         message['password'] = 'Please provide a valid password.'
-    if User.query.filter_by(username=data['username']).first():
+    if User.query.filter_by(username=data.get('username', None)).first():
         message['username'] = 'Please use a different username.'
-    if User.query.filter_by(email=data['email']).first():
+    if User.query.filter_by(email=data.get('email', None)).first():
         message['email'] = 'Please use a different email address.'
     if message:
         return bad_request(message)
@@ -60,7 +64,9 @@ def get_user(id):
 def update_user(id):
     '''修改一个用户'''
     user = User.query.get_or_404(id)
-    data = request.get_json() or {}
+    data = request.get_json()
+    if not data:
+        return bad_request('You must post JSON data.')
     if 'username' in data and data['username'] != user.username and \
             User.query.filter_by(username=data['username']).first():
         return bad_request('Please use a different username')
