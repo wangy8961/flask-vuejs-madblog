@@ -10,12 +10,23 @@ from app.models import User
 def create_user():
     '''注册一个新用户'''
     data = request.get_json() or {}
-    if 'username' not in data or 'email' not in data or 'password' not in data:
-        return bad_request('must include username, email and password fields')
+    message = {}
+    if 'username' not in data or not data['username']:
+        message['username'] = 'Please provide a valid username.'
+
+    pattern = '^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+    if 'email' not in data or not re.match(pattern, data['email']):
+        message['email'] = 'Please provide a valid email address.'
+
+    if 'password' not in data or not data['password']:
+        message['password'] = 'Please provide a valid password.'
     if User.query.filter_by(username=data['username']).first():
-        return bad_request('please use a different username')
+        message['username'] = 'Please use a different username.'
     if User.query.filter_by(email=data['email']).first():
-        return bad_request('please use a different email address')
+        message['email'] = 'Please use a different email address.'
+    if message:
+        return bad_request(message)
+
     user = User()
     user.from_dict(data, new_user=True)
     db.session.add(user)
