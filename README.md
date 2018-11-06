@@ -13,6 +13,7 @@
 - [Flask Vue.js全栈开发｜第1章：创建第一个Flask RESTful API](http://www.madmalls.com/blog/post/first-flask-test-restful-api/)
 - [Flask Vue.js全栈开发｜第2章：Vue.js通过axios访问Flask RESTful API](http://www.madmalls.com/blog/post/axios-use-flask-api/)
 - [Flask Vue.js全栈开发｜第3章：Flask设计User用户相关API](http://www.madmalls.com/blog/post/provide-users-api/)
+- [Flask Vue.js全栈开发｜第4章：Vue.js调用API实现用户注册/登录/退出](http://www.madmalls.com/blog/post/user-register-and-login/)
 
 # 2. 如何使用
 

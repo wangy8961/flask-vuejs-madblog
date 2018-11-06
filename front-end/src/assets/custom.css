@@ -1,0 +1,575 @@
+/* Profile 边框
+------------------------------------*/
+.g-brd-around {
+  border: solid 1px transparent !important;
+}
+
+.g-brd-gray-light-v4 {
+  border-color: #eee !important;
+}
+
+.g-pa-20 {
+  padding: 1.42857rem !important;
+}
+
+.g-mb-20 {
+  margin-bottom: 1.42857rem !important;
+}
+
+.g-mb-10 {
+  margin-bottom: 0.71429rem !important;
+}
+
+.g-mb-5 {
+  margin-bottom: 0.35714rem !important;
+}
+
+.g-mb-40 {
+  margin-bottom: 2.85714rem !important;
+}
+
+.g-mb-0--lg {
+  margin-bottom: 0 !important;
+}
+
+.g-py-12 {
+  padding-top: 0.85714rem !important;
+  padding-bottom: 0.85714rem !important;
+}
+
+.g-rounded-50 {
+  border-radius: 50px !important;
+}
+
+/* Button Styles
+------------------------------------*/
+/* General Button Styles */
+.btn {
+  position: relative;
+  transition: .2s ease;
+  cursor: pointer;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+  outline: 0 none;
+  box-shadow: none;
+}
+
+
+/*------------------------------------
+   Outline Buttons
+------------------------------------*/
+/* Outline Button Primary */
+.u-btn-outline-primary {
+  color: #72c02c;
+  border-color: #72c02c;
+  background-color: transparent;
+}
+
+.u-btn-outline-primary:focus, .u-btn-outline-primary.active {
+  color: #fff;
+  background-color: #72c02c;
+}
+
+.u-btn-outline-primary:hover {
+  color: #fff;
+  background-color: #72c02c;
+}
+  
+
+/*------------------------------------
+  Positions
+------------------------------------*/
+.g-pos-rel {
+  position: relative !important;
+}
+
+.g-top-1 {
+  top: 0.07143rem;
+}
+
+.g-mr-5 {
+  margin-right: 0.35714rem !important;
+}
+
+.g-my-20 {
+  margin-top: 1.42857rem !important;
+  margin-bottom: 1.42857rem !important;
+}
+
+.g-my-50 {
+  margin-top: 3.57143rem !important;
+  margin-bottom: 3.57143rem !important;
+}
+
+.g-font-weight-300 {
+  font-weight: 300;
+}
+
+.g-font-size-11 {
+  font-size: 0.78571rem !important;
+}
+
+.g-line-height-1_8 {
+  line-height: 1.8 !important;
+}
+
+.list-group-item {
+  border-color: #eee;
+}
+
+.g-px-8 {
+  padding-left: 0.57143rem !important;
+  padding-right: 0.57143rem !important;
+}
+
+.g-rounded-20 {
+  border-radius: 20px !important;
+}
+
+.g-bg-pink {
+  background-color: #e81c62 !important;
+}
+
+.g-bg-cyan {
+  background-color: #00bed6 !important;
+}
+
+/* Primary Colors */
+.g-bg-primary {
+  background-color: #72c02c !important;
+}
+
+/* Color Blue */
+.g-bg-blue {
+  background-color: #3398dc !important;
+}
+
+/*------------------------------------
+Background Colors
+------------------------------------*/
+.u-label {
+  display: inline-block;
+  padding: .35rem .58rem;
+  font-size: .9rem;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  color: #fff;
+  /* Label Size
+  ------------------------------------*/
+  /* Label Styles
+  ------------------------------------*/
+  /* Label Num
+  ------------------------------------*/
+}
+
+.u-label:empty {
+  display: none;
+}
+
+.btn .u-label {
+  position: relative;
+  top: -1px;
+}
+
+.u-label-default {
+  background-color: #777;
+}
+
+.u-label-default[href]:hover, .u-label-default[href]:focus {
+  background-color: #555;
+}
+
+.u-label-primary {
+  background-color: #5cb85c;
+}
+
+.u-label-primary[href]:hover, .u-label-primary[href]:focus {
+  background-color: #55b555;
+}
+
+.u-label-success {
+  background-color: #5cb85c;
+}
+
+.u-label-success[href]:hover, .u-label-success[href]:focus {
+  background-color: #55b555;
+}
+
+.u-label-info {
+  background-color: #5bc0de;
+}
+
+.u-label-info[href]:hover, .u-label-info[href]:focus {
+  background-color: #53bddc;
+}
+
+.u-label-warning {
+  background-color: #f0ad4e;
+}
+
+.u-label-warning[href]:hover, .u-label-warning[href]:focus {
+  background-color: #efa945;
+}
+
+.u-label-danger {
+  background-color: #d9534f;
+}
+
+.u-label-danger[href]:hover, .u-label-danger[href]:focus {
+  background-color: #d74b47;
+}
+
+.u-label.g-rounded-10 {
+  padding: .35rem .7rem;
+}
+
+.u-label--sm {
+  font-size: .8rem;
+}
+
+.u-label--lg {
+  font-size: 1.1rem;
+}
+
+.u-label.u-label-with-icon {
+  padding: .5rem .85rem;
+}
+
+.u-label.u-label-with-icon i {
+  margin-right: .5rem;
+}
+
+.u-label-num {
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 .35rem;
+  line-height: 2rem;
+}
+
+.u-label-num.u-label--sm {
+  min-width: 1.6rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
+}
+
+.u-label-num.u-label--lg {
+  min-width: 2.2rem;
+  height: 2.2rem;
+  line-height: 2.2rem;
+}
+
+
+/* 头像 */
+.g-mb-30 {
+  margin-bottom: 2.14286rem !important;
+}
+
+[class*="u-block-hover"], [class*="u-block-hover"]::before, [class*="u-block-hover"]::after {
+  transition: all .3s ease;
+}
+
+/*------------------------------------
+  Block Hovers
+------------------------------------*/
+[class*="u-block-hover"] {
+  position: relative;
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+}
+
+[class*="u-block-hover"], [class*="u-block-hover"]::before, [class*="u-block-hover"]::after {
+  transition: all .3s ease;
+}
+
+.u-block-hover--uncroped {
+  overflow: visible;
+}
+
+.u-block-hover--uncroped:hover {
+  z-index: 2;
+}
+
+.u-block-hover__img {
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.u-block-hover__block {
+  min-height: 100%;
+}
+
+/*------------------------------------
+  Box-shadows-v21
+------------------------------------*/
+.u-shadow-v21 {
+  box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.09);
+  transition-property: all;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+  transition-duration: .3s;
+}
+
+.u-shadow-v21--hover:hover {
+  box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
+}
+
+
+figure {
+  margin-bottom: 0;
+}
+
+.g-pa-30 {
+  padding: 2.14286rem !important;
+}
+
+.g-transition--ease-in-out {
+  transition-timing-function: ease-in-out;
+}
+
+.g-transition-0_3 {
+  transition-duration: .3s;
+}
+
+.g-rounded-4 {
+  border-radius: 4px !important;
+}
+
+/* White Colors */
+.g-bg-white {
+  background-color: #fff !important;
+}
+
+.g-bg-white--before::before, .g-bg-white--after::after {
+  background-color: #fff !important;
+}
+
+.g-bg-white--hover:hover, .g-bg-white--active.active {
+  background-color: #fff !important;
+}
+
+.g-parent:hover .g-bg-white--parent-hover {
+  background-color: #fff !important;
+}
+
+.g-bg-white--before::before, .g-bg-white--after::after {
+  background-color: #fff !important;
+}
+
+.g-parent:hover .g-bg-white-opacity-0--after--parent-hover::after {
+  background-color: rgba(255, 255, 255, 0) !important;
+}
+
+
+/*------------------------------------
+  Transitions
+------------------------------------*/
+[class*="g-transition"] {
+  transition-property: all;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+}
+
+[class*="g-transition"]::before, [class*="g-transition"]::after,
+[class*="g-transition"] path,
+[class*="g-transition"] polygon {
+  transition-property: all;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+}
+
+.g-transition-0_2 {
+  transition-duration: .2s;
+}
+
+.g-transition-0_2::before, .g-transition-0_2::after,
+.g-transition-0_2 path,
+.g-transition-0_2 polygon {
+  transition-duration: .2s;
+}
+
+.g-transition-0_3 {
+  transition-duration: .3s;
+}
+
+.g-transition-0_3::before, .g-transition-0_3::after,
+.g-transition-0_3 path,
+.g-transition-0_3 polygon {
+  transition-duration: .3s;
+}
+
+.g-transition-0_5 {
+  transition-duration: .5s;
+}
+
+.g-transition-0_5::before, .g-transition-0_5::after,
+.g-transition-0_5 path,
+.g-transition-0_5 polygon {
+  transition-duration: .5s;
+}
+
+.g-transition-0_6 {
+  transition-duration: .6s;
+}
+
+.g-transition-0_6::before, .g-transition-0_6::after,
+.g-transition-0_6 path,
+.g-transition-0_6 polygon {
+  transition-duration: .6s;
+}
+
+.g-transition-delay-0_11 {
+  transition-delay: .11s;
+}
+
+.g-transition-delay-0_11::before, .g-transition-delay-0_11::after,
+.g-transition-delay-0_11 path,
+.g-transition-delay-0_11 polygon {
+  transition-delay: .11s;
+}
+
+.g-transition-delay-0_2 {
+  transition-delay: .2s;
+}
+
+.g-transition-delay-0_2::before, .g-transition-delay-0_2::after,
+.g-transition-delay-0_2 path,
+.g-transition-delay-0_2 polygon {
+  transition-delay: .2s;
+}
+
+.g-transition-delay-0_45 {
+  transition-delay: .45s;
+}
+
+.g-transition-delay-0_45::before, .g-transition-delay-0_45::after,
+.g-transition-delay-0_45 path,
+.g-transition-delay-0_45 polygon {
+  transition-delay: .45s;
+}
+
+.g-transition--ease-out {
+  transition-timing-function: ease-out;
+}
+
+.g-transition--ease-out::before, .g-transition--ease-out::after,
+.g-transition--ease-out path,
+.g-transition--ease-out polygon {
+  transition-timing-function: ease-out;
+}
+
+.g-transition--ease-in {
+  transition-timing-function: ease-in;
+}
+
+.g-transition--ease-in::before, .g-transition--ease-in::after,
+.g-transition--ease-in path,
+.g-transition--ease-in polygon {
+  transition-timing-function: ease-in;
+}
+
+.g-transition--ease-in-out {
+  transition-timing-function: ease-in-out;
+}
+
+.g-transition--ease-in-out::before, .g-transition--ease-in-out::after,
+.g-transition--ease-in-out path,
+.g-transition--ease-in-out polygon {
+  transition-timing-function: ease-in-out;
+}
+
+.g-transition--linear {
+  transition-timing-function: linear;
+}
+
+.g-transition--linear::before, .g-transition--linear::after,
+.g-transition--linear path,
+.g-transition--linear polygon {
+  transition-timing-function: linear;
+}
+
+
+/* figure pic */
+
+.g-height-80 {
+  height: 80px !important;
+}
+.g-width-80 {
+  width: 80px !important;
+  /* P */
+}
+
+.g-font-weight-600 {
+  font-weight: 600;
+}
+
+.g-font-size-16 {
+  font-size: 1.14286rem !important;
+}
+
+.g-mx-3 {
+  margin-left: 0.21429rem !important;
+  margin-right: 0.21429rem !important;
+}
+
+
+/* About me 分隔栏 */
+/* Gray Colors */
+.g-color-gray-light-v1 {
+  color: #bbb !important;
+}
+
+.g-brd-gray-light-v2 {
+  border-color: #ccc !important;
+}
+
+.g-bg-gray-light-v4 {
+  background-color: #eee !important;
+}
+
+.u-divider-center {
+  text-align: center;
+}
+
+.u-divider {
+  position: relative;
+  border-top-width: 1px;
+}
+
+/* Double Dashed Divider */
+.u-divider-db-dashed {
+  height: 5px;
+  border-top: 1px dashed transparent;
+  border-bottom: 1px dashed transparent;
+}
+
+.u-divider-center .u-divider__icon {
+  left: auto;
+  right: auto;
+  margin-left: -1.42857rem;
+}
+
+.u-divider__icon {
+  position: absolute;
+  top: -1.42857rem;
+  width: 2.85714rem;
+  height: 2.85714rem;
+  font-size: 1.28571rem;
+  line-height: 2.85714rem;
+  text-align: center;
+  font-style: normal;
+}
+
+.u-divider__icon--indented {
+  box-shadow: 0 0 0 15px #fff;
+}
+
+.g-mt-50 {
+  margin-top: 3.57143rem !important;
+}

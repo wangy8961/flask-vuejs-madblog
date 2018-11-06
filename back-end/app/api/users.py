@@ -1,5 +1,5 @@
 import re
-from flask import request, jsonify, url_for
+from flask import request, jsonify, url_for, g
 from app import db
 from app.api import bp
 from app.api.auth import token_auth
@@ -55,6 +55,9 @@ def get_users():
 @token_auth.login_required
 def get_user(id):
     '''返回一个用户'''
+    user = User.query.get_or_404(id)
+    if g.current_user == user:
+        return jsonify(User.query.get_or_404(id).to_dict(include_email=True))
     return jsonify(User.query.get_or_404(id).to_dict())
 
 
