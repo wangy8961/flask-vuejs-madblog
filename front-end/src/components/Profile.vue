@@ -56,10 +56,10 @@
             <!-- End Location -->
 
             <div v-if="user.about_me">
-              <div class="u-divider u-divider-db-dashed u-divider-center g-brd-gray-light-v2 g-mt-50 g-mb-20">
+              <div class="u-divider u-divider-db-dashed u-divider-center g-brd-gray-light-v2 g-mt-50 g-mb-30">
                 <i class="u-divider__icon u-divider__icon--indented g-bg-gray-light-v4 g-color-gray-light-v1 rounded-circle">Me</i>
               </div>
-              <p class="lead g-line-height-1_8">{{ user.about_me }}</p>
+              <p class="g-line-height-1_8 g-font-weight-300">{{ user.about_me }}</p>
             </div>
 
             
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import store from '../store.js'
+import store from '../store'
 
 export default {
   name: 'Profile',  //this is the name of the component
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     getUser (id) {
-      const path = `/users/${id}`
+      const path = `/api/users/${id}`
       this.$axios.get(path)
         .then((response) => {
           this.user = response.data

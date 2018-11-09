@@ -16,6 +16,9 @@
             <router-link to="/" class="nav-link">Home <span class="sr-only">(current)</span></router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/ping" class="nav-link">Ping</router-link>
+          </li>
+          <li class="nav-item">
             <a class="nav-link disabled" href="#">Explore</a>
           </li>
         </ul>
@@ -49,7 +52,7 @@
 </template>
 
 <script>
-import store from '../store.js'
+import store from '../store'
 
 export default {
   name: 'Navbar',  //this is the name of the component

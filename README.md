@@ -15,6 +15,7 @@
 - [Flask Vue.js全栈开发｜第3章：Flask设计User用户相关API](http://www.madmalls.com/blog/post/provide-users-api/)
 - [Flask Vue.js全栈开发｜第4章：Vue.js调用API实现用户注册/登录/退出](http://www.madmalls.com/blog/post/user-register-and-login/)
 - [Flask Vue.js全栈开发｜第5章：个人主页与用户头像](http://www.madmalls.com/blog/post/profile-page-and-avatars/)
+- [Flask Vue.js全栈开发｜第6章：博客文章CURD与Markdown](http://www.madmalls.com/blog/post/post-curd-and-markdown/)
 
 # 2. 如何使用
 

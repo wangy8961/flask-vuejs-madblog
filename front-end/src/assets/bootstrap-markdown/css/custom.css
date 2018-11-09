@@ -1,0 +1,28 @@
+.md-editor .btn-group {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.md-editor .btn-default {
+    color: inherit;
+    background: #fff;
+    border: 2px solid #e7eaec;
+}
+
+.md-editor .btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.md-editor .btn {
+    position: relative;
+    float: left;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+
+.md-editor .btn-group>.btn:first-child {
+    margin-left: 5px;
+}

@@ -75,7 +75,23 @@
   color: #fff;
   background-color: #72c02c;
 }
-  
+
+/* Button Outline Red */
+.u-btn-outline-red {
+  color: #f00;
+  border-color: #f00;
+  background-color: transparent;
+}
+
+.u-btn-outline-red:focus, .u-btn-outline-red.active {
+  color: #fff;
+  background-color: #f00;
+}
+
+.u-btn-outline-red:hover {
+  color: #fff;
+  background-color: #f00;
+}
 
 /*------------------------------------
   Positions
@@ -572,4 +588,548 @@ figure {
 
 .g-mt-50 {
   margin-top: 3.57143rem !important;
+}
+
+/* 博客列表 */
+.card,
+.card-header {
+  border-color: #eee;
+}
+.card-header {
+  padding: 0.71429rem 1.07143rem;
+}
+.card-block {
+  padding: 1.07143rem;
+}
+
+.g-mb-10 {
+  margin-bottom: 0.71429rem !important;
+}
+.g-mb-0--md {
+  margin-bottom: 0 !important;
+}
+.g-mb-15 {
+  margin-bottom: 1.07143rem !important;
+}
+.g-pa-5 {
+  padding: 0.35714rem !important;
+}
+.g-mr-minus-5 {
+  margin-right: -0.35714rem !important;
+}
+/*------------------------------------
+  Cursors
+------------------------------------*/
+.g-cursor-pointer {
+  cursor: pointer;
+}
+.g-mt-10 {
+  margin-top: 0.71429rem !important;
+}
+/* Rounded Around */
+.rounded-0 {
+  border-radius: 0 !important;
+}
+.dropdown-menu {
+  min-width: 15rem;
+  padding: 0;
+}
+.dropdown-item {
+  padding: 0.21429rem 1.07143rem;
+}
+.g-px-10 {
+  padding-left: 0.71429rem !important;
+  padding-right: 0.71429rem !important;
+}
+
+.g-bg-gray-light-v5 {
+  background-color: #f7f7f7 !important;
+}
+.g-color-gray-dark-v5 {
+  color: #999 !important;
+}
+.g-font-size-12 {
+  font-size: 0.85714rem !important;
+}
+@media (min-width: 0) {
+  .g-pa-0 {
+    padding: 0 !important;
+  }
+}
+
+.g-mr-20 {
+  margin-right: 1.42857rem !important;
+}
+.g-mt-3 {
+  margin-top: 0.21429rem !important;
+}
+.g-height-50 {
+  height: 50px;
+}
+.g-width-50 {
+  width: 50px !important;
+  /* P */
+}
+.g-mb-10--sm {
+  margin-bottom: 0.71429rem !important;
+}
+.g-mb-15 {
+  margin-bottom: 1.07143rem !important;
+}
+
+@media (min-width: 576px) {
+  .g-mb-0--sm {
+    margin-bottom: 0 !important;
+  }
+}
+.g-mr-10 {
+  margin-right: 0.71429rem !important;
+}
+
+/*------------------------------------
+  Typography Text Decoration
+------------------------------------*/
+.g-text-underline {
+  text-decoration: underline;
+}
+
+.g-text-underline--none--hover:focus, .g-text-underline--none--hover:hover {
+  text-decoration: none;
+}
+
+.g-text-strike {
+  text-decoration: line-through;
+}
+
+/* Button Sizes
+------------------------------------*/
+/* Extra Small */
+.btn-xs {
+  line-height: 1.4;
+  padding: 0.14286rem 0.5rem;
+  font-size: 0.78571rem;
+}
+
+
+/* 博客详情页 */
+/* Primary Colors */
+.g-color-primary {
+  color: #72c02c !important;
+}
+
+.g-pb-50 {
+  padding-bottom: 3.57143rem !important;
+}
+.g-pt-30 {
+  padding-top: 2.14286rem !important;
+}
+.g-pt-50 {
+  padding-top: 3.57143rem !important;
+}
+.g-mb-50 {
+  margin-bottom: 3.57143rem !important;
+}
+.g-mb-60 {
+  margin-bottom: 4.28571rem !important;
+}
+.g-mb-0--lg {
+  margin-bottom: 0 !important;
+}
+.g-color-gray-dark-v4 {
+  color: #777 !important;
+}
+.g-my-15 {
+  margin-top: 1.07143rem !important;
+  margin-bottom: 1.07143rem !important;
+}
+.g-brd-gray-light-v4 {
+  border-color: #eee !important;
+}
+
+.u-link-v5 {
+  text-decoration: none;
+  transition: all .2s;
+}
+
+.u-link-v5:hover, .u-link-v5:focus {
+  text-decoration: none;
+}
+
+/* Primary Colors */
+.g-color-primary {
+  color: #72c02c !important;
+}
+
+.u-block-hover:hover .g-color-primary--hover, .g-color-primary--hover:hover {
+  color: #72c02c !important;
+}
+
+.g-parent:hover .g-color-primary--parent-hover {
+  color: #72c02c !important;
+}
+
+.g-color-primary-opacity-0_3 {
+  color: rgba(114, 192, 44, 0.3) !important;
+}
+
+.g-color-primary-opacity-0_4 {
+  color: rgba(114, 192, 44, 0.4) !important;
+}
+
+.g-color-primary--before::before, .g-color-primary--after::after {
+  color: #72c02c;
+}
+
+/* Outline Button Aqua */
+.u-btn-outline-aqua {
+  color: #29d6e6;
+  border-color: #29d6e6;
+  background-color: transparent;
+}
+
+.u-btn-outline-aqua:focus, .u-btn-outline-aqua.active {
+  color: #fff;
+  background-color: #29d6e6;
+}
+
+.u-btn-outline-aqua:hover {
+  color: #fff;
+  background-color: #29d6e6;
+}
+
+/* 防止评论框使用 media-body 页面缩小时会被撑爆 */
+.media-body {
+  min-width: 0;
+}
+
+/*------------------------------------
+  Error state v1
+------------------------------------*/
+.u-has-error-v1 .form-control,
+.u-has-error-v1 .input-group-addon,
+.u-has-error-v1 [class*="u-select"] {
+  background-color: #fff0f0;
+}
+
+.u-has-error-v1 .form-control[readonly],
+.u-has-error-v1 .input-group-addon[readonly],
+.u-has-error-v1 [class*="u-select"][readonly] {
+  background-color: #fff0f0;
+}
+
+.u-has-error-v1 .form-control-feedback {
+  color: #f00;
+}
+
+.u-has-error-v1 [class*="u-check-icon"] {
+  background-color: #fff0f0;
+}
+
+.g-pt-15 {
+  padding-top: 1.07143rem !important;
+}
+
+
+@media (max-width: 767px) {
+  .g-hidden-sm-down {
+    display: none !important;
+  }
+}
+
+.g-pa-12-19 {
+  padding: 0.85714rem 1.35714rem !important;
+}
+.g-pa-12-21 {
+  padding: 0.85714rem 1.5rem !important;
+}
+.g-rounded-50 {
+  border-radius: 50px !important;
+}
+
+/*------------------------------------
+  Paginations
+------------------------------------*/
+/* Pagination v1 */
+.u-pagination-v1__item {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  border: solid 1px transparent;
+  transition: all .3s ease;
+}
+
+.u-pagination-v1__item--active, .u-pagination-v1__item:hover, .u-pagination-v1__item:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.u-pagination-v1__item-info {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.u-pagination-v1__item--disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* Pagination Style v1 */
+.u-pagination-v1-1 {
+  color: #999;
+  border-color: #999;
+}
+
+.u-pagination-v1-1--active, .u-pagination-v1-1:hover, .u-pagination-v1-1:focus {
+  background-color: #72c02c;
+  color: #fff;
+  border-color: #72c02c;
+}
+
+/* Pagination Style v2 */
+.u-pagination-v1-2 {
+  color: #555;
+  border-color: #555;
+}
+
+.u-pagination-v1-2:hover, .u-pagination-v1-2:focus {
+  color: #72c02c;
+  border-color: #72c02c;
+}
+
+.u-pagination-v1-2--active, .u-pagination-v1-2--nav {
+  background-color: #72c02c;
+  color: #fff;
+  border-color: #72c02c;
+}
+
+.u-pagination-v1-2--active:hover, .u-pagination-v1-2--active:focus, .u-pagination-v1-2--nav:hover, .u-pagination-v1-2--nav:focus {
+  color: #fff;
+}
+
+.u-pagination-v1-2--nav:hover {
+  background-color: rgba(114, 192, 44, 0.8);
+}
+
+/* Pagination Style v3 */
+.u-pagination-v1-3 {
+  color: #333;
+  border-color: #333;
+}
+
+.u-pagination-v1-3--active, .u-pagination-v1-3:hover, .u-pagination-v1-3:focus {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Pagination Style v4 */
+.u-pagination-v1-4 {
+  color: #333;
+  border-color: transparent;
+}
+
+.u-pagination-v1-4:hover, .u-pagination-v1-4:focus {
+  color: #72c02c;
+  border-color: #72c02c;
+}
+
+.u-pagination-v1-4--active {
+  color: #fff;
+  background-color: #72c02c;
+  border-color: #72c02c;
+}
+
+.u-pagination-v1-4--active:hover, .u-pagination-v1-4--active:focus {
+  color: #fff;
+}
+
+/* Outline Button Purple */
+.u-btn-outline-purple {
+  color: #9a69cb;
+  border-color: #9a69cb;
+  background-color: transparent;
+}
+
+.u-btn-outline-purple:focus, .u-btn-outline-purple.active {
+  color: #fff;
+  background-color: #9a69cb;
+}
+
+.u-btn-outline-purple:hover {
+  color: #fff;
+  background-color: #9a69cb;
+}
+
+.g-pt-70 {
+  padding-top: 5rem !important;
+}
+.g-pt-75 {
+  padding-top: 5.35714rem !important;
+}
+.g-pt-80 {
+  padding-top: 5.71429rem !important;
+}
+.g-pt-85 {
+  padding-top: 6.07143rem !important;
+}
+.g-pt-90 {
+  padding-top: 6.42857rem !important;
+}
+.g-pt-95 {
+  padding-top: 6.78571rem !important;
+}
+.g-pt-100 {
+  padding-top: 7.14286rem !important;
+}
+
+/* TOC */
+/*------------------------------------
+  Heading-v3
+------------------------------------*/
+[class*="u-heading-v3-"] {
+  border-bottom: 1px dotted #ccc;
+}
+
+.u-heading-v3__title {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  margin: 0;
+  padding-bottom: 0.71429rem;
+  border-bottom: 1px solid #555;
+}
+/*------------------------------------
+  Headings
+------------------------------------*/
+/* Massive Underline */
+.u-heading-massive-underline {
+  position: relative;
+}
+
+.u-heading-massive-underline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: .2em;
+  height: .3em;
+  background-color: rgba(114, 192, 44, 0.8);
+  z-index: -1;
+}
+
+
+/*------------------------------------
+  List Styles
+------------------------------------*/
+.u-list-inline {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.img-bordered {
+  border: solid 6px #777;
+}
+
+.g-order-1 {
+  -webkit-box-ordinal-group: 2;
+  -webkit-order: 1;
+      -ms-flex-order: 1;
+          order: 1;
+}
+
+.g-order-2 {
+  -webkit-box-ordinal-group: 3;
+  -webkit-order: 2;
+      -ms-flex-order: 2;
+          order: 2;
+}
+
+@media (min-width: 576px) {
+  .g-order-1--sm {
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+  }
+  .g-order-2--sm {
+    -webkit-box-ordinal-group: 3;
+    -webkit-order: 2;
+        -ms-flex-order: 2;
+            order: 2;
+  }
+}
+
+@media (min-width: 768px) {
+  .g-order-1--md {
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+  }
+  .g-order-2--md {
+    -webkit-box-ordinal-group: 3;
+    -webkit-order: 2;
+        -ms-flex-order: 2;
+            order: 2;
+  }
+}
+
+@media (min-width: 992px) {
+  .g-order-1--lg {
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+  }
+  .g-order-2--lg {
+    -webkit-box-ordinal-group: 3;
+    -webkit-order: 2;
+        -ms-flex-order: 2;
+            order: 2;
+  }
+}
+
+/* Color Aqua */
+.g-color-aqua {
+  color: #29d6e6;
+}
+
+/*------------------------------------
+  Link Styles
+------------------------------------*/
+.u-link-v5 {
+  text-decoration: none;
+  transition: all .2s;
+}
+
+.u-link-v5:hover, .u-link-v5:focus {
+  text-decoration: none;
+}
+
+/* Color Red */
+.g-color-red {
+  color: #f00 !important;
+}
+
+.g-color-red--hover:hover {
+  color: #f00 !important;
+}
+
+/* Color Aqua */
+.g-color-aqua {
+  color: #29d6e6;
+}
+
+.g-color-aqua--hover:hover {
+  color: #29d6e6 !important;
+}
+
+.g-color-aqua-dark-v1 {
+  color: #11848e !important;
+}
+
+.g-ml-15 {
+  margin-left: 1.07143rem !important;
 }

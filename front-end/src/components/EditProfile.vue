@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import store from '../store.js'
+import store from '../store'
 
 export default {
   name: 'EditProfile',  //this is the name of the component
@@ -34,14 +34,13 @@ export default {
       profileForm: {
         name: '',
         location: '',
-        about_me: '',
-        submitted: false  // 是否点击了 submit 按钮
+        about_me: ''
       }
     }
   },
   methods: {
     getUser (id) {
-      const path = `/users/${id}`
+      const path = `/api/users/${id}`
       this.$axios.get(path)
         .then((response) => {
           this.profileForm.name = response.data.name
@@ -55,7 +54,7 @@ export default {
     },
     onSubmit (e) {
       const user_id = this.sharedState.user_id
-      const path = `/users/${user_id}`
+      const path = `/api/users/${user_id}`
       const payload = {
         name: this.profileForm.name,
         location: this.profileForm.location,

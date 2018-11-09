@@ -4,15 +4,15 @@
     <div class="row">
       <div class="col-md-4">
         <form @submit.prevent="onSubmit">
-          <div class="form-group">
+          <div class="form-group" v-bind:class="{'u-has-error-v1': loginForm.usernameError}">
             <label for="username">Username</label>
-            <input type="text" v-model="loginForm.username" class="form-control" v-bind:class="{'is-invalid': loginForm.usernameError}" id="username" placeholder="">
-            <div v-show="loginForm.usernameError" class="invalid-feedback">{{ loginForm.usernameError }}</div>
+            <input type="text" v-model="loginForm.username" class="form-control" id="username" placeholder="">
+            <small class="form-control-feedback" v-show="loginForm.usernameError">{{ loginForm.usernameError }}</small>
           </div>
-          <div class="form-group">
+          <div class="form-group" v-bind:class="{'u-has-error-v1': loginForm.passwordError}">
             <label for="password">Password</label>
-            <input type="password" v-model="loginForm.password" class="form-control" v-bind:class="{'is-invalid': loginForm.passwordError}" id="password" placeholder="">
-            <div v-show="loginForm.passwordError" class="invalid-feedback">{{ loginForm.passwordError }}</div>
+            <input type="password" v-model="loginForm.password" class="form-control" id="password" placeholder="">
+            <small class="form-control-feedback" v-show="loginForm.passwordError">{{ loginForm.passwordError }}</small>
           </div>
           <button type="submit" class="btn btn-primary">Sign In</button>
         </form>
@@ -28,17 +28,15 @@
 </template>
 
 <script>
-import store from '../store.js'
+import store from '../store'
 
 export default {
   name: 'Login',  //this is the name of the component
   data () {
     return {
-      sharedState: store.state,
       loginForm: {
         username: '',
         password: '',
-        submitted: false,  // 是否点击了 submit 按钮
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         usernameError: null,
         passwordError: null
@@ -47,8 +45,7 @@ export default {
   },
   methods: {
     onSubmit (e) {
-      this.loginForm.submitted = true  // 先更新状态
-      this.loginForm.errors = 0
+      this.loginForm.errors = 0  // 重置
 
       if (!this.loginForm.username) {
         this.loginForm.errors++
@@ -69,7 +66,7 @@ export default {
         return false
       }
 
-      const path = '/tokens'
+      const path = '/api/tokens'
       // axios 实现Basic Auth需要在config中设置 auth 这个属性即可
       this.$axios.post(path, {}, {
         auth: {

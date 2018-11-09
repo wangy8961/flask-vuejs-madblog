@@ -16,7 +16,9 @@
     "moment": "^2.22.2",
     "popper.js": "^1.14.4",
     "vue": "^2.5.2",
+    "vue-markdown": "^2.2.4",
     "vue-router": "^3.0.1",
+    "vue-sweetalert2": "^1.5.7",
     "vue-toasted": "^1.1.25"
   },
   "devDependencies": {
