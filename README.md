@@ -8,6 +8,8 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
+![](http://www.madmalls.com/admin/medias/uploaded/3-posts-list-8f6f0994.png)
+
 # 1. Flask Vue.js全栈开发教程系列
 
 - [Flask Vue.js全栈开发｜第1章：创建第一个Flask RESTful API](http://www.madmalls.com/blog/post/first-flask-test-restful-api/)
@@ -27,7 +29,7 @@ $ git clone https://github.com/wangy8961/flask-vuejs-madblog.git
 
 ## 2.2 Backend
 
-Opne a new terminal:
+Open a new terminal:
 
 ```bash
 $ cd back-end
@@ -49,7 +51,7 @@ FLASK_DEBUG=1
 
 ## 2.3 Frontend
 
-Opne a new terminal:
+Open a new terminal:
 
 ```bash
 $ cd front-end
