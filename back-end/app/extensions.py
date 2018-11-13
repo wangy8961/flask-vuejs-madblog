@@ -5,7 +5,6 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-
 # Flask-Cors plugin
 cors = CORS()
 # Flask-SQLAlchemy plugin

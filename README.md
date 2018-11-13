@@ -8,7 +8,7 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
-![](http://www.madmalls.com/admin/medias/uploaded/3-posts-list-8f6f0994.png)
+![](http://www.madmalls.com/admin/medias/uploaded/0-yong-hu-guan-zhu-yan-shi-ef0f37a3.gif)
 
 # 1. Flask Vue.js全栈开发教程系列
 
@@ -18,6 +18,20 @@
 - [Flask Vue.js全栈开发｜第4章：Vue.js调用API实现用户注册/登录/退出](http://www.madmalls.com/blog/post/user-register-and-login/)
 - [Flask Vue.js全栈开发｜第5章：个人主页与用户头像](http://www.madmalls.com/blog/post/profile-page-and-avatars/)
 - [Flask Vue.js全栈开发｜第6章：博客文章CURD与Markdown](http://www.madmalls.com/blog/post/post-curd-and-markdown/)
+- [Flask Vue.js全栈开发｜第7章：粉丝关注大神](http://www.madmalls.com/blog/post/followers-and-followeds/)
+- 单元测试 (敬请期待)
+- 用户评论 (敬请期待)
+- 站内消息 (敬请期待)
+- 权限管理 (敬请期待)
+- 邮件的用处 (敬请期待)
+- 修改用户设置 (敬请期待)
+- 管理员视角 (敬请期待)
+- Celery任务队列与定时任务 (敬请期待)
+- Elasticsearch全站搜索 (敬请期待)
+- 国际化 (敬请期待)
+- 性能优化 (敬请期待)
+- Linux云主机部署 (敬请期待)
+- Docker容器部署 (敬请期待)
 
 # 2. 如何使用
 

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Alert from './Alert'
+import Alert from './Base/Alert'
 
 export default {
   name: 'Ping',
