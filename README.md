@@ -8,7 +8,7 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
-![](http://www.madmalls.com/admin/medias/uploaded/0-yong-hu-guan-zhu-yan-shi-ef0f37a3.gif)
+![](http://www.madmalls.com/admin/medias/uploaded/2-follow-and-unfollow-9415d90b.gif)
 
 # 1. Flask Vue.js全栈开发教程系列
 
