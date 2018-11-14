@@ -19,7 +19,7 @@
 - [Flask Vue.js全栈开发｜第5章：个人主页与用户头像](http://www.madmalls.com/blog/post/profile-page-and-avatars/)
 - [Flask Vue.js全栈开发｜第6章：博客文章CURD与Markdown](http://www.madmalls.com/blog/post/post-curd-and-markdown/)
 - [Flask Vue.js全栈开发｜第7章：粉丝关注大神](http://www.madmalls.com/blog/post/followers-and-followeds/)
-- 单元测试 (敬请期待)
+- [Flask Vue.js全栈开发｜第8章：单元测试](http://www.madmalls.com/blog/post/flask-unit-test/)
 - 用户评论 (敬请期待)
 - 站内消息 (敬请期待)
 - 权限管理 (敬请期待)

@@ -216,6 +216,7 @@ def get_user_posts(id):
 
 
 @bp.route('/users/<int:id>/followeds-posts/', methods=['GET'])
+@token_auth.login_required
 def get_user_followed_posts(id):
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
