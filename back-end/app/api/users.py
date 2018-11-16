@@ -5,7 +5,7 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request, error_response
 from app.extensions import db
-from app.models import User, Post
+from app.models import User, Post, Comment
 
 
 @bp.route('/users/', methods=['POST'])
@@ -217,13 +217,29 @@ def get_user_posts(id):
 
 @bp.route('/users/<int:id>/followeds-posts/', methods=['GET'])
 @token_auth.login_required
-def get_user_followed_posts(id):
+def get_user_followeds_posts(id):
+    '''返回该用户所关注的大神的所有博客文章列表'''
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     per_page = min(
         request.args.get(
             'per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
     data = Post.to_collection_dict(
-        user.followed_posts.order_by(Post.timestamp.desc()), page, per_page,
-        'api.get_user_followed_posts', id=id)
+        user.followeds_posts.order_by(Post.timestamp.desc()), page, per_page,
+        'api.get_user_followeds_posts', id=id)
+    return jsonify(data)
+
+
+@bp.route('/users/<int:id>/comments/', methods=['GET'])
+@token_auth.login_required
+def get_user_comments(id):
+    '''返回该用户发表过的所有评论列表'''
+    user = User.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['COMMENTS_PER_PAGE'], type=int), 100)
+    data = Comment.to_collection_dict(
+        user.comments.order_by(Comment.timestamp.desc()), page, per_page,
+        'api.get_user_comments', id=id)
     return jsonify(data)

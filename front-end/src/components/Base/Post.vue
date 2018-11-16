@@ -7,7 +7,7 @@
     <div class="media-body">
       <div class="d-sm-flex justify-content-sm-between align-items-sm-center g-mb-15 g-mb-10--sm">
         <h5 class="h4 g-font-weight-300 g-mr-10 g-mb-5 g-mb-0--sm">
-          <router-link v-bind:to="{ name: 'PostDetail', params: { id: post.id }}" class="g-text-underline--none--hover">{{ post.title }}</router-link>
+          <router-link v-bind:to="{ name: 'PostDetail', params: { id: post.id } }" class="g-text-underline--none--hover">{{ post.title }}</router-link>
         </h5>
         <div class="text-nowrap g-font-size-12">
           <span>{{ $moment(post.timestamp).fromNow() }}</span> / <router-link v-bind:to="{ path: `/user/${post.author.id}` }"><span v-if="post.author.name">{{ post.author.name }}</span><span v-else>{{ post.author.username }}</span></router-link>
@@ -32,10 +32,10 @@
         </ul>
         <ul class="list-inline mb-0 ml-auto">
           <li class="list-inline-item g-mr-5">
-            <router-link v-bind:to="{ name: 'PostDetail', params: { id: post.id }}" class="btn btn-xs u-btn-outline-primary">阅读全文</router-link>
+            <router-link v-bind:to="{ name: 'PostDetail', params: { id: post.id } }" class="btn btn-xs u-btn-outline-primary">阅读全文</router-link>
           </li>
           <li v-if="post.author.id == sharedState.user_id" class="list-inline-item g-mr-5">
-            <button v-on:click="$emit('edit-post')" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#updatePostModal">编辑</button>
+            <button v-on:click="$emit('edit-post')" class="btn btn-xs u-btn-outline-purple" data-toggle="modal" data-target="#editPostModal">编辑</button>
           </li>
           <li v-if="post.author.id == sharedState.user_id" class="list-inline-item">
             <button v-on:click="$emit('delete-post')" class="btn btn-xs u-btn-outline-red">删除</button>

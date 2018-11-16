@@ -2,28 +2,28 @@
   <div class="container">
 
     <!-- Modal: Edit Post -->
-    <div class="modal fade" id="updatePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="updatePostModalTitle">Update Post</h5>
+            <h5 class="modal-title" id="editPostModalTitle">Update Post</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
           
-            <form @submit.prevent="onSubmitUpdate" @reset.prevent="onResetUpdate">
-              <div class="form-group" v-bind:class="{'u-has-error-v1': editForm.titleError}">
-                <input type="text" v-model="editForm.title" class="form-control" id="editform_title" placeholder="标题">
-                <small class="form-control-feedback" v-show="editForm.titleError">{{ editForm.titleError }}</small>
+            <form id="editPostForm" @submit.prevent="onSubmitUpdatePost" @reset.prevent="onResetUpdatePost">
+              <div class="form-group" v-bind:class="{'u-has-error-v1': editPostForm.titleError}">
+                <input type="text" v-model="editPostForm.title" class="form-control" id="editPostFormTitle" placeholder="标题">
+                <small class="form-control-feedback" v-show="editPostForm.titleError">{{ editPostForm.titleError }}</small>
               </div>
               <div class="form-group">
-                <input type="text" v-model="editForm.summary" class="form-control" id="editform_summary" placeholder="摘要">
+                <input type="text" v-model="editPostForm.summary" class="form-control" id="editPostFormSummary" placeholder="摘要">
               </div>
               <div class="form-group">
-                <textarea v-model="editForm.body" class="form-control" id="editform_body" rows="5" placeholder=" 内容"></textarea>
-                <small class="form-control-feedback" v-show="editForm.bodyError">{{ editForm.bodyError }}</small>
+                <textarea v-model="editPostForm.body" class="form-control" id="editPostFormBody" rows="5" placeholder=" 内容"></textarea>
+                <small class="form-control-feedback" v-show="editPostForm.bodyError">{{ editPostForm.bodyError }}</small>
               </div>
               <button type="reset" class="btn btn-secondary">Cancel</button>
               <button type="submit" class="btn btn-primary">Update</button>
@@ -34,16 +34,16 @@
       </div>
     </div>
 
-    <form v-if="sharedState.is_authenticated" @submit.prevent="onSubmitAdd" class="g-mb-40">
+    <form id="addPostForm" v-if="sharedState.is_authenticated" @submit.prevent="onSubmitAddPost" class="g-mb-40">
       <div class="form-group" v-bind:class="{'u-has-error-v1': postForm.titleError}">
-        <input type="text" v-model="postForm.title" class="form-control" id="post_title" placeholder="标题">
+        <input type="text" v-model="postForm.title" class="form-control" id="postFormTitle" placeholder="标题">
         <small class="form-control-feedback" v-show="postForm.titleError">{{ postForm.titleError }}</small>
       </div>
       <div class="form-group">
-        <input type="text" v-model="postForm.summary" class="form-control" id="post_summary" placeholder="摘要">
+        <input type="text" v-model="postForm.summary" class="form-control" id="postFormSummary" placeholder="摘要">
       </div>
       <div class="form-group">
-        <textarea v-model="postForm.body" class="form-control" id="post_body" rows="5" placeholder=" 内容"></textarea>
+        <textarea v-model="postForm.body" class="form-control" id="postFormBody" rows="5" placeholder=" 内容"></textarea>
         <small class="form-control-feedback" v-show="postForm.bodyError">{{ postForm.bodyError }}</small>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
@@ -136,7 +136,7 @@ export default {
         titleError: null,
         bodyError: null
       },
-      editForm: {
+      editPostForm: {
         title: '',
         summary: '',
         body: '',
@@ -169,7 +169,7 @@ export default {
           console.log(error.response.data)
         })
     },
-    onSubmitAdd (e) {
+    onSubmitAddPost (e) {
       this.postForm.errors = 0  // 重置
 
       if (!this.postForm.title) {
@@ -182,11 +182,11 @@ export default {
       if (!this.postForm.body) {
         this.postForm.errors++
         this.postForm.bodyError = 'Body is required.'
-        // 给 bootstrap-markdown 编辑器内容添加警示样式，而不是添加到 #post_body 上
-        $('.md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
+        // 给 bootstrap-markdown 编辑器内容添加警示样式，而不是添加到 #postFormBody 上
+        $('#addPostForm .md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
       } else {
         this.postForm.bodyError = null
-        $('.md-editor').closest('.form-group').removeClass('u-has-error-v1')
+        $('#addPostForm .md-editor').closest('.form-group').removeClass('u-has-error-v1')
       }
 
       if (this.postForm.errors > 0) {
@@ -215,72 +215,72 @@ export default {
         })
     },
     onEditPost (post) {
-      // 不要使用对象引用赋值： this.editForm = post
-      // 这样是同一个 post 对象，用户在 editform 中的操作会双向绑定到该 post 上， 你会看到 modal 下面的博客也在变
-      // 如果用户修改了一些数据，但是点了 cancel，你就必须在 onResetUpdate() 中重新加载一次博客列表，不然用户会看到修改后但未提交的不对称信息
-      this.editForm = Object.assign({}, post)
+      // 不要使用对象引用赋值： this.editPostForm = post
+      // 这样是同一个 post 对象，用户在 editPostForm 中的操作会双向绑定到该 post 上， 你会看到 modal 下面的博客也在变
+      // 如果用户修改了一些数据，但是点了 cancel，你就必须在 onResetUpdatePost() 中重新加载一次博客列表，不然用户会看到修改后但未提交的不对称信息
+      this.editPostForm = Object.assign({}, post)
     },
-    onSubmitUpdate () {
-      this.editForm.errors = 0  // 重置
+    onSubmitUpdatePost () {
+      this.editPostForm.errors = 0  // 重置
       // 每次提交前先移除错误，不然错误就会累加
-      $('.form-control-feedback').remove()
-      $('.form-group.u-has-error-v1').removeClass('u-has-error-v1')
+      $('#editPostForm .form-control-feedback').remove()
+      $('#editPostForm .form-group.u-has-error-v1').removeClass('u-has-error-v1')
 
-      if (!this.editForm.title) {
-        this.editForm.errors++
-        this.editForm.titleError = 'Title is required.'
+      if (!this.editPostForm.title) {
+        this.editPostForm.errors++
+        this.editPostForm.titleError = 'Title is required.'
         // boostrap4 modal依赖jQuery，不兼容 vue.js 的双向绑定。所以要手动添加警示样式和错误提示
-        $('#editform_title').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
-        $('#editform_title').after('<small class="form-control-feedback">' + this.editForm.titleError + '</small>')
+        $('#editPostFormTitle').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
+        $('#editPostFormTitle').after('<small class="form-control-feedback">' + this.editPostForm.titleError + '</small>')
       } else {
-        this.editForm.titleError = null
+        this.editPostForm.titleError = null
       }
 
-      if (!this.editForm.body) {
-        this.editForm.errors++
-        this.editForm.bodyError = 'Body is required.'
+      if (!this.editPostForm.body) {
+        this.editPostForm.errors++
+        this.editPostForm.bodyError = 'Body is required.'
         // boostrap4 modal依赖jQuery，不兼容 vue.js 的双向绑定。所以要手动添加警示样式和错误提示
-        // 给 bootstrap-markdown 编辑器内容添加警示样式，而不是添加到 #post_body 上
-        $('.md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
-        $('.md-editor').after('<small class="form-control-feedback">' + this.editForm.bodyError + '</small>')
+        // 给 bootstrap-markdown 编辑器内容添加警示样式，而不是添加到 #postFormBody 上
+        $('#editPostForm .md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
+        $('#editPostForm .md-editor').after('<small class="form-control-feedback">' + this.editPostForm.bodyError + '</small>')
       } else {
-        this.editForm.bodyError = null
+        this.editPostForm.bodyError = null
       }
 
-      if (this.editForm.errors > 0) {
+      if (this.editPostForm.errors > 0) {
         // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
         return false
       }
 
       // 先隐藏 Modal
-      $('#updatePostModal').modal('hide')
+      $('#editPostModal').modal('hide')
 
-      const path = `/api/posts/${this.editForm.id}`
+      const path = `/api/posts/${this.editPostForm.id}`
       const payload = {
-        title: this.editForm.title,
-        summary: this.editForm.summary,
-        body: this.editForm.body
+        title: this.editPostForm.title,
+        summary: this.editPostForm.summary,
+        body: this.editPostForm.body
       }
       this.$axios.put(path, payload)
         .then((response) => {
           // handle success
           this.getPosts()
           this.$toasted.success('Successed update the post.', { icon: 'fingerprint' })
-          this.editForm.title = '',
-          this.editForm.summary = '',
-          this.editForm.body = ''
+          this.editPostForm.title = '',
+          this.editPostForm.summary = '',
+          this.editPostForm.body = ''
         })
         .catch((error) => {
           // handle error
           console.log(error.response.data)
         })
     },
-    onResetUpdate () {
+    onResetUpdatePost () {
       // 先移除错误
-      $('.form-control-feedback').remove()
-      $('.form-group.u-has-error-v1').removeClass('u-has-error-v1')
+      $('#editPostForm .form-control-feedback').remove()
+      $('#editPostForm .form-group.u-has-error-v1').removeClass('u-has-error-v1')
       // 再隐藏 Modal
-      $('#updatePostModal').modal('hide')
+      $('#editPostModal').modal('hide')
       // this.getPosts()
       this.$toasted.info('Cancelled, the post is not update.', { icon: 'fingerprint' })
     },
@@ -318,7 +318,7 @@ export default {
     this.getPosts()
     // 初始化 bootstrap-markdown 插件
     $(document).ready(function() {
-      $("#post_body, #editform_body").markdown({
+      $("#postFormBody, #editPostFormBody").markdown({
         autofocus:false,
         savable:false,
         iconlibrary: 'fa',  // 使用Font Awesome图标

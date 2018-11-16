@@ -2,10 +2,13 @@
 <section>
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 20px;">
-      <router-link to="/" class="navbar-brand">
+      <div class="navbar-brand">
+      <router-link to="/" class="g-text-underline--none--hover">
         <img src="../../assets/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-          Design by <a href="http://www.madmalls.com" class="g-text-underline--none--hover">Madman</a>
+          Design by 
       </router-link>
+      <a href="http://www.madmalls.com" class="g-text-underline--none--hover">Madman</a>
+      </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

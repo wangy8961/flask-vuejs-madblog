@@ -12,3 +12,4 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     POSTS_PER_PAGE = 10
     USERS_PER_PAGE = 10
+    COMMENTS_PER_PAGE = 10

@@ -834,7 +834,9 @@ figure {
 .g-color-primary {
   color: #72c02c !important;
 }
-
+.g-pb-15 {
+  padding-bottom: 1.07143rem !important;
+}
 .g-pb-50 {
   padding-bottom: 3.57143rem !important;
 }
@@ -1529,4 +1531,32 @@ figure {
 /* Color Pink */
 .g-color-pink {
   color: #e81c62;
+}
+/* Color Deep Orange */
+.g-bg-deeporange {
+  background-color: #fe541e !important;
+}
+
+.g-bg-deeporange-opacity-0_1 {
+  background-color: rgba(254, 84, 30, 0.1) !important;
+}
+
+.g-bg-deeporange--hover:hover {
+  background-color: #fe541e !important;
+}
+
+/*博客详情页中上、下一篇按钮*/
+.g-pa-7-16 {
+  padding: 0.5rem 1.14286rem !important;
+}
+.g-brd-gray-light-v3 {
+  border-color: #ddd !important;
+}
+
+.g-brd-gray-light-v3--hover:hover, .g-brd-gray-light-v3--active.active, .g-brd-gray-light-v3--focus:focus {
+  border-color: #ddd !important;
+}
+
+*:hover > .g-brd-gray-light-v3--hover-parent {
+  border-color: #ddd !important;
 }

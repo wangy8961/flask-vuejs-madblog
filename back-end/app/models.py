@@ -64,6 +64,8 @@ class User(PaginatedAPIMixin, db.Model):
         primaryjoin=(followers.c.follower_id == id),
         secondaryjoin=(followers.c.followed_id == id),
         backref=db.backref('followers', lazy='dynamic'), lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic',
+                               cascade='all, delete-orphan')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -88,15 +90,19 @@ class User(PaginatedAPIMixin, db.Model):
             'about_me': self.about_me,
             'member_since': self.member_since.isoformat() + 'Z',
             'last_seen': self.last_seen.isoformat() + 'Z',
-            'posts_count': self.posts.count(),
-            'followed_posts_count': self.followed_posts.count(),
             'followeds_count': self.followeds.count(),
             'followers_count': self.followers.count(),
+            'posts_count': self.posts.count(),
+            'followeds_posts_count': self.followeds_posts.count(),
+            'comments_count': self.comments.count(),
             '_links': {
                 'self': url_for('api.get_user', id=self.id),
                 'avatar': self.avatar(128),
                 'followeds': url_for('api.get_followeds', id=self.id),
-                'followers': url_for('api.get_followers', id=self.id) 
+                'followers': url_for('api.get_followers', id=self.id),
+                'posts': url_for('api.get_user_posts', id=self.id),
+                'followeds_posts': url_for('api.get_user_followeds_posts', id=self.id),
+                'comments': url_for('api.get_user_comments', id=self.id)
             }
         }
         if include_email:
@@ -159,7 +165,7 @@ class User(PaginatedAPIMixin, db.Model):
             self.followeds.remove(user)
 
     @property
-    def followed_posts(self):
+    def followeds_posts(self):
         '''获取当前用户的关注者的所有博客列表'''
         followed = Post.query.join(
             followers, (followers.c.followed_id == Post.author_id)).filter(
@@ -181,6 +187,8 @@ class Post(PaginatedAPIMixin, db.Model):
     # 外键, 直接操纵数据库当user下面有posts时不允许删除user，下面仅仅是 ORM-level “delete” cascade
     # db.ForeignKey('users.id', ondelete='CASCADE') 会同时在数据库中指定 FOREIGN KEY level “ON DELETE” cascade
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comments = db.relationship('Comment', backref='post', lazy='dynamic',
+                               cascade='all, delete-orphan')
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
@@ -203,9 +211,11 @@ class Post(PaginatedAPIMixin, db.Model):
             'timestamp': self.timestamp,
             'views': self.views,
             'author': self.author.to_dict(),
+            'comments_count': self.comments.count(),
             '_links': {
                 'self': url_for('api.get_post', id=self.id),
-                'author_url': url_for('api.get_user', id=self.author_id)
+                'author_url': url_for('api.get_user', id=self.author_id),
+                'comments': url_for('api.get_post_comments', id=self.id)
             }
         }
         return data
@@ -217,3 +227,37 @@ class Post(PaginatedAPIMixin, db.Model):
 
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)  # body 字段有变化时，执行 on_changed_body() 方法
+
+
+class Comment(PaginatedAPIMixin, db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    disabled = db.Column(db.Boolean, default=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
+    def __repr__(self):
+        return '<Comment {}>'.format(self.id)
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'body': self.body,
+            'timestamp': self.timestamp,
+            'disabled': self.disabled,
+            'author': self.author.to_dict(),
+            'post': self.post.to_dict(),
+            '_links': {
+                'self': url_for('api.get_comment', id=self.id),
+                'author_url': url_for('api.get_user', id=self.author_id),
+                'post_url': url_for('api.get_post', id=self.post_id)
+            }
+        }
+        return data
+
+    def from_dict(self, data):
+        for field in ['body', 'disabled']:
+            if field in data:
+                setattr(self, field, data[field])
