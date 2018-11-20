@@ -13,7 +13,7 @@ def create_comment():
     data = request.get_json()
     if not data:
         return bad_request('You must post JSON data.')
-    if 'body' not in data or not data.get('body'):
+    if 'body' not in data or not data.get('body').strip():
         return bad_request('Body is required.')
     if 'post_id' not in data or not data.get('post_id'):
         return bad_request('Post id is required.')
@@ -59,13 +59,13 @@ def get_comment(id):
 def update_comment(id):
     '''修改单个评论'''
     comment = Comment.query.get_or_404(id)
-    if g.current_user != comment.author:
+    if g.current_user != comment.author and g.current_user != comment.post.author:
         return error_response(403)
     data = request.get_json()
     if not data:
         return bad_request('You must post JSON data.')
-    if 'body' not in data or not data.get('body'):
-        return bad_request('Body is required.')
+    # if 'body' not in data or not data.get('body'):
+    #     return bad_request('Body is required.')
     comment.from_dict(data)
     db.session.commit()
     return jsonify(comment.to_dict())
@@ -76,8 +76,39 @@ def update_comment(id):
 def delete_comment(id):
     '''删除单个评论'''
     comment = Comment.query.get_or_404(id)
-    if g.current_user != comment.author:
+    if g.current_user != comment.author and g.current_user != comment.post.author:
         return error_response(403)
     db.session.delete(comment)
     db.session.commit()
     return '', 204
+
+
+###
+# 评论被点赞或被取消点赞
+###
+@bp.route('/comments/<int:id>/like', methods=['GET'])
+@token_auth.login_required
+def like_comment(id):
+    '''点赞评论'''
+    comment = Comment.query.get_or_404(id)
+    comment.liked_by(g.current_user)
+    db.session.add(comment)
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'You are now liking comment [ id: %d ].' % id
+    })
+
+
+@bp.route('/comments/<int:id>/unlike', methods=['GET'])
+@token_auth.login_required
+def unlike_comment(id):
+    '''取消点赞评论'''
+    comment = Comment.query.get_or_404(id)
+    comment.unliked_by(g.current_user)
+    db.session.add(comment)
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'You are not liking comment [ id: %d ] anymore.' % id
+    })

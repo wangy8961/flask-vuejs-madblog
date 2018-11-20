@@ -292,7 +292,7 @@ class UsersAPITestCase(unittest.TestCase):
         response = self.client.get('/api/follow/2', headers=headers)
         self.assertEqual(response.status_code, 200)
         json_response = json.loads(response.get_data(as_text=True))
-        self.assertEqual(json_response['message'], 'You are now following 2.')
+        self.assertEqual(json_response['message'], 'You are now following david.')
         # 3. 已经关注过的人，你不能重复关注
         response = self.client.get('/api/follow/2', headers=headers)
         self.assertEqual(response.status_code, 400)
@@ -325,12 +325,12 @@ class UsersAPITestCase(unittest.TestCase):
         response = self.client.get('/api/follow/2', headers=headers)
         self.assertEqual(response.status_code, 200)
         json_response = json.loads(response.get_data(as_text=True))
-        self.assertEqual(json_response['message'], 'You are now following 2.')
+        self.assertEqual(json_response['message'], 'You are now following david.')
         # 开始取消关注
         response = self.client.get('/api/unfollow/2', headers=headers)
         self.assertEqual(response.status_code, 200)
         json_response = json.loads(response.get_data(as_text=True))
-        self.assertEqual(json_response['message'], 'You are not following 2 anymore.')
+        self.assertEqual(json_response['message'], 'You are not following david anymore.')
 
     def test_get_followeds(self):
         # 测试获取你已关注的人的列表

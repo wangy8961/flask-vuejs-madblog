@@ -29,13 +29,12 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   // Do something with response data
   return response
-
 }, function (error) {
-
+  // Do something with response error
   if (typeof error.response == 'undefined') {
     Vue.toasted.error('无法连接Flask API，请联系管理员', { icon: 'fingerprint' })
   } else {
-    // Do something with response error
+    // 匹配不同的响应码
     switch  (error.response.status) {
       case 401:
         // 清除 Token 及 已认证 等状态

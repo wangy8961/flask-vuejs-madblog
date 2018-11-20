@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import store from '../../../store'
+import store from '../../store'
 
 export default {
   name: 'Login',  //this is the name of the component

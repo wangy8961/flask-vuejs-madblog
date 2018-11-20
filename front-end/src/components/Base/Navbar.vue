@@ -30,21 +30,25 @@
         </form>
 
         <ul v-if="sharedState.is_authenticated" class="nav navbar-nav navbar-right">
+          <li class="nav-item g-mr-20">
+            <router-link v-bind:to="{ path: '/notifications/comments' }" class="nav-link"><i class="icon-education-033 u-line-icon-pro g-color-red g-font-size-16 g-pos-rel g-top-2 g-mr-3"></i> Notifications <span id="new_message_count" class="u-label g-font-size-11 g-bg-aqua g-rounded-20 g-px-10">{{ sharedState.new_messages_count }}</span></router-link>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img v-bind:src="sharedState.user_avatar"> {{ sharedState.user_name }}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <router-link v-bind:to="{ path: `/user/${sharedState.user_id}` }" class="dropdown-item">Your profile</router-link>
-              <router-link v-bind:to="{ name: 'SettingProfile' }" class="dropdown-item">Settings</router-link>
+              <router-link v-bind:to="{ path: `/user/${sharedState.user_id}` }" class="dropdown-item"><i class="icon-star g-pos-rel g-top-1 g-mr-5"></i> Your profile</router-link>
+              <router-link v-bind:to="{ name: 'PostsResource' }" class="dropdown-item"><i class="icon-share g-pos-rel g-top-1 g-mr-5"></i> Your resource</router-link>
+              <router-link v-bind:to="{ name: 'SettingProfile' }" class="dropdown-item"><i class="icon-settings g-pos-rel g-top-1 g-mr-5"></i> Settings</router-link>
               <div class="dropdown-divider"></div>
-              <a v-on:click="handlerLogout" class="dropdown-item" href="#">Sign out</a>
+              <a v-on:click="handlerLogout" class="dropdown-item" href="#"><i class="icon-logout g-pos-rel g-top-1 g-mr-5"></i> Sign out</a>
             </div>
           </li>
         </ul>
         <ul v-else class="nav navbar-nav navbar-right">          
           <li class="nav-item">
-            <router-link to="/login" class="nav-link">Sign in</router-link>
+            <router-link to="/login" class="nav-link"><i class="icon-login g-pos-rel g-top-1 g-mr-5"></i> Sign in</router-link>
           </li>
         </ul>
       </div>
@@ -55,6 +59,7 @@
 
 <script>
 import store from '../../store'
+import axios from 'axios'
 
 export default {
   name: 'Navbar',  //this is the name of the component
@@ -68,6 +73,26 @@ export default {
       store.logoutAction()
       this.$toasted.show('You have been logged out.', { icon: 'fingerprint' })
       this.$router.push('/login')
+    }
+  },
+  mounted () {
+    if (this.sharedState.is_authenticated) {
+      const payload = JSON.parse(atob(window.localStorage.getItem('madblog-token').split('.')[1]))
+      const user_id = payload.user_id
+      $(function() {
+        setInterval(function() {
+          const path = `/api/users/${user_id}`
+          axios.get(path)
+            .then((response) => {
+              // handle success
+              $('#new_message_count').text(response.data.new_messages_count)
+            })
+            .catch((error) => {
+              // handle error
+              console.error(error)
+            })
+        }, 1000000)
+      })
     }
   }
 }

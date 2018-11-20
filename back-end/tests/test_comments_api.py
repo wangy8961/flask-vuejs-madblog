@@ -190,11 +190,11 @@ class CommentsAPITestCase(unittest.TestCase):
         json_response = json.loads(response.get_data(as_text=True))
         self.assertEqual(json_response['message'], 'You must post JSON data.')
         # 3. 缺少 body 时
-        data = json.dumps({'disabled': True})
-        response = self.client.put('/api/comments/1', headers=headers, data=data)
-        self.assertEqual(response.status_code, 400)
-        json_response = json.loads(response.get_data(as_text=True))
-        self.assertEqual(json_response['message'], 'Body is required.')
+        # data = json.dumps({'disabled': True})
+        # response = self.client.put('/api/comments/1', headers=headers, data=data)
+        # self.assertEqual(response.status_code, 400)
+        # json_response = json.loads(response.get_data(as_text=True))
+        # self.assertEqual(json_response['message'], 'Body is required.')
         # 4. 正常提供参数，成功修改
         data = json.dumps({'body': 'Hello, I am john'})
         response = self.client.put('/api/comments/1', headers=headers, data=data)

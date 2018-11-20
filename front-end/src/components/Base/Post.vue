@@ -1,7 +1,7 @@
 <template>
-  <div class="media g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-20">
+  <div v-bind:class="leftBrdColor" class="media g-brd-around g-brd-gray-light-v4 g-brd-left-1 g-pa-20 g-mb-20">
     <router-link v-bind:to="{ path: `/user/${post.author.id}` }" v-bind:title="post.author.name || post.author.username">
-      <img class="d-flex g-width-50 g-height-50 g-mt-3 g-mr-20" v-bind:src="post.author._links.avatar" v-bind:alt="post.author.name || post.author.username">
+      <img class="d-flex g-width-50 g-height-50 g-mt-3 g-mr-20" v-bind:src="post.author.avatar" v-bind:alt="post.author.name || post.author.username">
     </router-link>
     
     <div class="media-body">
@@ -25,9 +25,14 @@
       <div class="d-flex justify-content-start">
         <ul class="list-inline mb-0">
           <li class="list-inline-item g-mr-20">
-            <a class="g-color-gray-dark-v5 g-text-underline--none--hover" href="page-profile-comments-1.html#">
+            <a class="g-color-gray-dark-v5 g-text-underline--none--hover" href="javascript:;">
               <i class="icon-eye g-pos-rel g-top-1 g-mr-3"></i> {{ post.views }}
             </a>
+          </li>
+          <li class="list-inline-item g-mr-20">
+            <router-link v-bind:to="{ path: `/post/${post.id}#comment-list-wrap` }" class="g-color-gray-dark-v5 g-text-underline--none--hover">
+              <i class="icon-bubble g-pos-rel g-top-1 g-mr-3"></i> {{ post.comments_count }}
+            </router-link>
           </li>
         </ul>
         <ul class="list-inline mb-0 ml-auto">
@@ -59,6 +64,13 @@ export default {
   data () {
     return {
       sharedState: store.state
+    }
+  },
+  computed: {
+    leftBrdColor: function () {
+      const colors = ['primary', 'blue', 'red', 'purple', 'orange', 'yellow', 'aqua', 'cyan', 'teal', 'brown', 'pink', 'black']
+      let index = Math.floor((Math.random() * colors.length))
+      return 'g-brd-' + colors[index] + '-left'
     }
   }
 }

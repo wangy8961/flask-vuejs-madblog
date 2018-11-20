@@ -1,11 +1,11 @@
 <template>
   <div class="media g-mb-20">
     <router-link v-bind:to="{ path: `/user/${comment.author.id}` }" v-bind:title="comment.author.name || comment.author.username">
-      <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-20" v-bind:src="comment.author._links.avatar" v-bind:alt="comment.author.name || comment.author.username">
+      <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-20" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
     </router-link>
-    <div class="media-body g-brd-around g-brd-gray-light-v4 g-pa-20">
+    <div v-bind:class="leftBrdColor" class="media-body g-brd-around g-brd-gray-light-v4 g-brd-left-1 g-pa-20">
       <div class="d-sm-flex justify-content-sm-between align-items-sm-center g-mb-15 g-mb-10--sm">
-        <h5 v-if="comment.author.id == comment.post.author.id" class="h4 g-font-weight-300 g-mr-10 g-mb-5 g-mb-0--sm g-color-pink">{{ comment.author.name || comment.author.username }} <span class="h6">(作者)</span></h5>
+        <h5 v-if="comment.author.id == comment.post.author_id" class="h4 g-font-weight-300 g-mr-10 g-mb-5 g-mb-0--sm g-color-pink"><span class="g-mr-5">{{ comment.author.name || comment.author.username }}</span> <button class="btn btn-xs u-btn-inset u-btn-outline-red g-mr-5">博文作者</button></h5>
         <h5 v-else class="h4 g-font-weight-300 g-mr-10 g-mb-5 g-mb-0--sm">{{ comment.author.name || comment.author.username }}</h5>
         <div class="text-nowrap g-font-size-12">
           <span>{{ $moment(comment.timestamp).fromNow() }}</span> / <a href="javascript:;">Reply</a>
@@ -65,6 +65,13 @@ export default {
   data () {
     return {
       sharedState: store.state
+    }
+  },
+  computed: {
+    leftBrdColor: function () {
+      const colors = ['primary', 'blue', 'red', 'purple', 'orange', 'yellow', 'aqua', 'cyan', 'teal', 'brown', 'pink', 'black']
+      let index = Math.floor((Math.random() * colors.length))
+      return 'g-brd-' + colors[index] + '-left'
     }
   }
 }

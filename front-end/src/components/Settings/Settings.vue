@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import store from '../../../store'
+import store from '../../store'
 
 export default {
   name: 'Settings',  //this is the name of the component
