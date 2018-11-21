@@ -12,9 +12,13 @@
 
             <span class="d-block g-font-weight-500">{{ user.name || user.username }}</span>
 
-            <span class="u-icon-v3 u-icon-size--xs g-color-white--hover g-bg-primary--hover rounded-circle g-pos-abs g-top-0 g-right-15 g-cursor-pointer" title="" data-toggle="tooltip" data-placement="top" data-original-title="Change Profile Picture">
-              <i class="icon-finance-067 u-line-icon-pro"></i>
-            </span>
+            <router-link v-bind:to="{ path: `/user/${sharedState.user_id}` }">
+              <span class="u-icon-v3 u-icon-size--xs g-color-white--hover g-bg-primary--hover rounded-circle g-pos-abs g-top-0 g-right-15 g-cursor-pointer" title="Go To Your Profile"
+                    data-toggle="tooltip"
+                    data-placement="top">
+                <i class="icon-finance-067 u-line-icon-pro"></i>
+              </span>
+            </router-link>
           </div>
           <!-- End Profile Picture -->
 
@@ -95,6 +99,10 @@ export default {
   created () {
     const user_id = this.sharedState.user_id
     this.getUser(user_id)
+    // tooltip
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip(); 
+    })
   }
 }
 </script>

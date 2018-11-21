@@ -24,6 +24,9 @@ def create_comment():
     comment.author = g.current_user
     comment.post = post
     db.session.add(comment)
+    # 给文章作者发送新评论通知
+    post.author.add_notification('unread_recived_comments_count',
+                                 post.author.new_recived_comments())
     db.session.commit()
     response = jsonify(comment.to_dict())
     response.status_code = 201
@@ -79,6 +82,9 @@ def delete_comment(id):
     if g.current_user != comment.author and g.current_user != comment.post.author:
         return error_response(403)
     db.session.delete(comment)
+    # 给文章作者发送新评论通知(需要自动减1)
+    comment.post.author.add_notification('unread_recived_comments_count',
+                                         comment.post.author.new_recived_comments())
     db.session.commit()
     return '', 204
 
@@ -93,6 +99,11 @@ def like_comment(id):
     comment = Comment.query.get_or_404(id)
     comment.liked_by(g.current_user)
     db.session.add(comment)
+    # 切记要先提交，先添加点赞记录到数据库，因为 new_likes() 会查询 comments_likes 关联表
+    db.session.commit()
+    # 给评论作者发送新点赞通知
+    comment.author.add_notification('unread_likes_count',
+                                    comment.author.new_likes())
     db.session.commit()
     return jsonify({
         'status': 'success',
@@ -107,6 +118,11 @@ def unlike_comment(id):
     comment = Comment.query.get_or_404(id)
     comment.unliked_by(g.current_user)
     db.session.add(comment)
+    # 切记要先提交，先添加点赞记录到数据库，因为 new_likes() 会查询 comments_likes 关联表
+    db.session.commit()
+    # 给评论作者发送新点赞通知(需要自动减1)
+    comment.author.add_notification('unread_likes_count',
+                                    comment.author.new_likes())
     db.session.commit()
     return jsonify({
         'status': 'success',

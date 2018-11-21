@@ -50,10 +50,11 @@
         <div v-bind:id="'c' + comment.id" class="comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20"
           v-for="(comment, index) in comments.items" v-bind:key="index">
           <router-link v-bind:to="{ path: `/user/${comment.author.id}` }">  
-            <span class="d-inline-block g-pos-rel">
-              <span class="u-badge-v2--sm u-badge--top-left g-bg-red g-mt-7 g-ml-7"></span>
+            <span v-if="comment.is_new" class="d-inline-block g-pos-rel">
+              <span class="u-badge-v2--xs u-badge--top-left g-bg-red g-mt-7 g-ml-7"></span>
               <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
             </span>
+            <img v-else class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
           </router-link>
           <div class="media-body">
             <div class="g-mb-15">
@@ -134,7 +135,6 @@
 import store from '../../store'
 // 导入 vue-markdown 组件解析 markdown 原文为　HTML
 import VueMarkdown from 'vue-markdown'
-import Comment from '../Base/Comment'
 import Pagination from '../Base/Pagination'
 // bootstrap-markdown 编辑器依赖的 JS 文件，初始化编辑器在组件的 created() 方法中，同时它需要 JQuery 支持哦
 import '../../assets/bootstrap-markdown/js/bootstrap-markdown.js'

@@ -8,9 +8,8 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
-![pic 01](http://www.madmalls.com/admin/medias/uploaded/github-madblog-show-pic-01-2f8ce5a7.png)
-![pic 02](http://www.madmalls.com/admin/medias/uploaded/github-madblog-show-pic-02-41de56aa.png)
-![pic 03](http://www.madmalls.com/admin/medias/uploaded/1-you-ke-cha-kan-ping-lun-lie-biao-7bd80108.png)
+![pic 01](http://www.madmalls.com/admin/medias/uploaded/madblog-xuan-chuan-tu-547e5830.png)
+
 
 # 1. Flask Vue.js全栈开发教程系列
 
@@ -23,7 +22,8 @@
 - [Flask Vue.js全栈开发｜第7章：粉丝关注大神](http://www.madmalls.com/blog/post/followers-and-followeds/)
 - [Flask Vue.js全栈开发｜第8章：单元测试](http://www.madmalls.com/blog/post/flask-unit-test/)
 - [Flask Vue.js全栈开发｜第9章：用户评论](http://www.madmalls.com/blog/post/user-comments/)
-- 站内消息 (敬请期待)
+- [Flask Vue.js全栈开发｜第10章：用户通知](http://www.madmalls.com/blog/post/user-notifications/)
+- 私信 (敬请期待)
 - 权限管理 (敬请期待)
 - 邮件的用处 (敬请期待)
 - 修改用户设置 (敬请期待)

@@ -27,6 +27,10 @@ def create_post():
     post.from_dict(data)
     post.author = g.current_user  # 通过 auth.py 中 verify_token() 传递过来的（同一个request中，需要先进行 Token 认证）
     db.session.add(post)
+    # 给文章作者的所有粉丝发送新文章通知
+    for user in post.author.followers:
+        user.add_notification('unread_followeds_posts_count',
+                              user.new_followeds_posts())
     db.session.commit()
     response = jsonify(post.to_dict())
     response.status_code = 201
@@ -109,6 +113,10 @@ def delete_post(id):
     if g.current_user != post.author:
         return error_response(403)
     db.session.delete(post)
+    # 给文章作者的所有粉丝发送新文章通知(需要自动减1)
+    for user in post.author.followers:
+        user.add_notification('unread_followeds_posts_count',
+                              user.new_followeds_posts())
     db.session.commit()
     return '', 204
 

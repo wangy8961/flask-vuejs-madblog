@@ -355,8 +355,7 @@
 import store from '../store'
 // 导入 vue-markdown 组件解析 markdown 原文为　HTML
 import VueMarkdown from 'vue-markdown'
-// 评论子组件和分页子组件
-import Comment from './Base/Comment'
+// 分页子组件
 import Pagination from './Base/Pagination'
 // vue-router 从 Home 页路由到 Post 页后，会重新渲染并且会移除事件，自定义的指令 v-highlight 也不生效了
 // 所以，这个页面，在 mounted() 和 updated() 方法中调用 highlightCode() 可以解决代码不高亮问题
@@ -375,7 +374,6 @@ export default {
   name: 'Post',
   components: {
     VueMarkdown,
-    Comment,
     Pagination
   },
   data() {
