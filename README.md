@@ -8,6 +8,9 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
+> **测试Demo: http://95.163.198.43/**
+
+
 ![pic 01](http://www.madmalls.com/admin/medias/uploaded/madblog-xuan-chuan-tu-547e5830.png)
 ![pic 02](http://www.madmalls.com/admin/medias/uploaded/1-gei-yong-hu-fa-si-xin-76f4a538.png)
 ![pic 03](http://www.madmalls.com/admin/medias/uploaded/github-madblog-xuan-chuan-tu-02-c023d0d7.png)
