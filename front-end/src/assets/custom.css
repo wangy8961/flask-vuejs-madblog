@@ -786,7 +786,9 @@ figure {
     padding: 0 !important;
   }
 }
-
+.g-ml-5 {
+  margin-left: 0.35714rem !important;
+}
 .g-mr-20 {
   margin-right: 1.42857rem !important;
 }
@@ -1764,4 +1766,157 @@ figure {
 .u-badge-v2--xl {
   width: 18px;
   height: 18px;
+}
+
+
+/* 方框的头像 */
+/* Padding Around */
+.g-pa-2 {
+  padding: 0.14286rem !important;
+}
+
+/* 聊天记录 */
+.g-height-50vh--lg {
+  height: 50vh !important;
+}
+.g-pa-25--lg {
+  padding: 1.78571rem !important;
+}
+.g-pa-15 {
+  padding: 1.07143rem !important;
+}
+.g-mb-12 {
+  margin-bottom: 0.85714rem !important;
+}
+.g-mr-12 {
+  margin-right: 0.85714rem;
+}
+.g-height-36 {
+  height: 2.57143rem !important;
+}
+.g-width-36 {
+  width: 36px !important;
+  /* O */
+}
+.g-color-gray-dark-v6 {
+  color: #53585e !important;
+}
+
+.g-color-gray-dark-v6--hover:hover, .g-color-gray-dark-v6--focus:focus, .g-color-gray-dark-v6--disabled:disabled, .g-color-gray-dark-v6--active.active, .g-color-gray-dark-v6--opened[aria-expanded="true"] {
+  color: #53585e !important;
+}
+
+input[type="checkbox"]:checked + .g-color-gray-dark-v6--checked,
+input[type="checkbox"]:checked + * + .g-color-gray-dark-v6--checked {
+  color: #53585e !important;
+}
+
+.g-parent:hover .g-color-gray-dark-v6--parent-hover {
+  color: #53585e !important;
+}
+
+.g-parent.active .g-color-gray-dark-v6--parent-active {
+  color: #53585e !important;
+}
+
+.u-sibling.opened + .g-color-gray-dark-v6--sibling-opened {
+  color: #53585e !important;
+}
+.g-bg-gray-light-v8 {
+  background-color: #f5f9f9 !important;
+}
+
+.g-bg-gray-light-v8--hover:hover {
+  background-color: #f5f9f9 !important;
+}
+
+.g-bg-gray-light-v8--active.active {
+  background-color: #f5f9f9 !important;
+}
+
+.g-bg-gray-light-v8--disabled:disabled {
+  background-color: #f5f9f9 !important;
+}
+
+input:checked + .g-bg-gray-light-v8--sibling-checked {
+  background-color: #f5f9f9 !important;
+}
+.g-pa-10-15 {
+  padding: 0.71429rem 1.07143rem !important;
+}
+.g-width-auto--sm {
+  width: auto !important;
+}
+.g-width-400 {
+  width: 300px !important;
+  /* P */
+}
+.g-font-size-default--lg {
+  font-size: 1rem !important;
+}
+.g-rounded-10 {
+  border-radius: 10px !important;
+}
+.g-ml-50 {
+  margin-left: 3.57143rem !important;
+}
+/* Gray Colors */
+.g-color-gray-light-v1 {
+  color: #bbb !important;
+}
+
+.g-color-gray-light-v1--hover:hover {
+  color: #bbb !important;
+}
+.g-font-style-normal {
+  font-style: normal;
+}
+.g-color-gray-dark-v6 {
+  color: #53585e !important;
+}
+
+.g-color-gray-dark-v6--hover:hover, .g-color-gray-dark-v6--focus:focus, .g-color-gray-dark-v6--disabled:disabled, .g-color-gray-dark-v6--active.active, .g-color-gray-dark-v6--opened[aria-expanded="true"] {
+  color: #53585e !important;
+}
+
+input[type="checkbox"]:checked + .g-color-gray-dark-v6--checked,
+input[type="checkbox"]:checked + * + .g-color-gray-dark-v6--checked {
+  color: #53585e !important;
+}
+
+.g-parent:hover .g-color-gray-dark-v6--parent-hover {
+  color: #53585e !important;
+}
+
+.g-parent.active .g-color-gray-dark-v6--parent-active {
+  color: #53585e !important;
+}
+
+.u-sibling.opened + .g-color-gray-dark-v6--sibling-opened {
+  color: #53585e !important;
+}
+.g-bg-lightblue-v6 {
+  background-color: #dbf4f4 !important;
+}
+.g-ml-12 {
+  margin-left: 0.85714rem;
+}
+.g-mr-50 {
+  margin-right: 3.57143rem !important;
+}
+.g-color-lightblue-v3 {
+  color: #1cc9e4 !important;
+}
+/* Color Light Red */
+.g-color-lightred {
+  color: #e64b3b !important;
+}
+.g-color-lightred--hover:hover {
+  color: #e64b3b !important;
+}
+.g-color-lightred-v3 {
+  color: #e12254 !important;
+}
+.g-font-size-10 {
+  font-size: 0.71429rem !important;
 }

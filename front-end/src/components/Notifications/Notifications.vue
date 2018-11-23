@@ -7,7 +7,7 @@
           <!-- 用户头像 -->
           <div v-if="user" class="text-center g-pos-rel g-mb-30">
             <div class="g-width-100 g-height-100 mx-auto mb-3">
-              <img class="img-fluid rounded-circle" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
+              <img class="img-fluid rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
             </div>
 
             <span class="d-block g-font-weight-500">{{ user.name || user.username }}</span>
@@ -34,9 +34,10 @@
               </router-link>
             </li>
             <li class="g-py-3">
-              <router-link v-bind:to="{ name: 'RecivedMessages' }" v-bind:active-class="'active g-color-primary--active g-bg-gray-light-v5--active'" class="d-block align-middle u-link-v5 g-color-text g-color-primary--hover g-bg-gray-light-v5--hover rounded g-pa-3">
+              <router-link v-bind:to="{ name: 'MessagesIndex' }" v-bind:active-class="'active g-color-primary--active g-bg-gray-light-v5--active'" class="d-block align-middle u-link-v5 g-color-text g-color-primary--hover g-bg-gray-light-v5--hover rounded g-pa-3">
                 <span class="u-icon-v1 g-color-gray-dark-v5 mr-2"><i class="icon-communication-154 u-line-icon-pro"></i></span>
                 Messages
+                <span v-if="notifications.unread_messages_count" class="u-label g-font-size-11 g-bg-pink g-rounded-20 g-px-8 g-ml-15">{{ notifications.unread_messages_count }}</span>
               </router-link>
             </li>
             <li class="g-py-3">
@@ -88,6 +89,7 @@ export default {
       user: '',
       notifications: {
         unread_recived_comments_count: 0,
+        unread_messages_count: 0,
         unread_follows_count: 0,
         unread_likes_count: 0,
         unread_followeds_posts_count: 0
@@ -118,6 +120,10 @@ export default {
             switch (response.data[i].name) {
               case 'unread_recived_comments_count':
                 this.notifications.unread_recived_comments_count = response.data[i].payload
+                break
+              
+              case 'unread_messages_count':
+                this.notifications.unread_messages_count = response.data[i].payload
                 break
               
               case 'unread_follows_count':

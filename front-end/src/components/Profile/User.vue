@@ -1,32 +1,5 @@
 <template>
   <section>
-    <!-- Modal: Send Message -->
-    <div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="sendMessageModalTitle">Send Private Message</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-          
-            <form id="sendMessageForm" @submit.prevent="onSubmitSendMessage" @reset.prevent="onResetSendMessage">
-              <div class="form-group">
-                <textarea v-model="sendMessageForm.body"  class="form-control" id="sendMessageFormBody" rows="5" placeholder=" 悄悄话..."></textarea>
-                <small class="form-control-feedback" v-show="sendMessageForm.bodyError">{{ sendMessageForm.bodyError }}</small>
-              </div>
-              <button type="reset" class="btn btn-secondary">Cancel</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-    
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Modal: Send Message -->
-
     <!-- 用户信息 -->
     <div v-if="user" class="container">
       <div class="g-brd-around g-brd-gray-light-v4 g-pa-20 g-mb-40">
@@ -34,7 +7,7 @@
           <div class="col-sm-3 g-mb-40 g-mb-0--lg">
             <!-- User Image -->
             <div class="g-mb-20">
-              <img v-if="user._links.avatar" class="img-fluid w-100" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
+              <img v-if="user._links.avatar" class="img-fluid w-100 g-brd-around g-brd-gray-light-v4 g-pa-2" v-bind:src="user._links.avatar" v-bind:alt="user.name || user.username">
             </div>
             <!-- User Image -->
 
@@ -47,9 +20,9 @@
               <i class="icon-user-unfollow g-pos-rel g-top-1 g-mr-5"></i> Unfollow
             </button>
 
-            <button v-if="$route.params.id != sharedState.user_id" class="btn btn-block u-btn-outline-aqua g-rounded-50 g-py-12 g-mb-10" data-toggle="modal" data-target="#sendMessageModal">
-              <i class="icon-envelope g-pos-rel g-top-1 g-mr-5"></i> Send private message
-            </button>
+            <router-link v-if="$route.params.id != sharedState.user_id" v-bind:to="{ name: 'MessagesHistoryResource', query: { from: $route.params.id } }" class="btn btn-block u-btn-outline-purple g-rounded-50 g-py-12 g-mb-10">
+              <i class="icon-bubble g-pos-rel g-top-1 g-mr-5"></i> Send private message
+            </router-link>
 
             <router-link v-if="$route.params.id == sharedState.user_id" v-bind:to="{ name: 'SettingProfile' }" class="btn btn-block u-btn-outline-primary g-rounded-50 g-py-12 g-mb-10">
               <i class="icon-settings g-pos-rel g-top-1 g-mr-5"></i> Settings
@@ -145,11 +118,6 @@ export default {
         body: '',
         errors: 0,  // 表单是否在前端验证通过，0 表示没有错误，验证通过
         titleError: null,
-        bodyError: null
-      }, 
-      sendMessageForm: {
-        body: '',
-        errors: 0,  // 发送站内消息时，表单验证是否有错误
         bodyError: null
       }
     }
@@ -250,56 +218,6 @@ export default {
           this.$swal('Cancelled', 'Your account is safe :)', 'error')
         }
       })
-    },
-    onSubmitSendMessage () {
-      this.sendMessageForm.errors = 0  // 重置
-      // 每次提交前先移除错误，不然错误就会累加
-      $('#sendMessageForm .form-control-feedback').remove()
-      $('#sendMessageForm .form-group.u-has-error-v1').removeClass('u-has-error-v1')
-
-      if (!this.sendMessageForm.body) {
-        this.sendMessageForm.errors++
-        this.sendMessageForm.bodyError = 'Body is required.'
-        // boostrap4 modal依赖jQuery，不兼容 vue.js 的双向绑定。所以要手动添加警示样式和错误提示
-        // 给 bootstrap-markdown 编辑器内容添加警示样式，而不是添加到 #post_body 上
-        $('#sendMessageForm .md-editor').closest('.form-group').addClass('u-has-error-v1')  // Bootstrap 4
-        $('#sendMessageForm .md-editor').after('<small class="form-control-feedback">' + this.sendMessageForm.bodyError + '</small>')
-      } else {
-        this.sendMessageForm.bodyError = null
-      }
-
-      if (this.sendMessageForm.errors > 0) {
-        // 表单验证没通过时，不继续往下执行，即不会通过 axios 调用后端API
-        return false
-      }
-
-      // 先隐藏 Modal
-      $('#sendMessageModal').modal('hide')
-
-      const payload = {
-        recipient_id: this.$route.params.id,
-        body: this.sendMessageForm.body
-      }
-      this.$axios.post('/api/messages/', payload)
-        .then((response) => {
-          // handle success
-          this.$toasted.success(`Successed send the private message to ${this.user.username}.`, { icon: 'fingerprint' })
-          this.sendMessageForm.body = ''
-        })
-        .catch((error) => {
-          // handle error
-          console.log(error.response.data)
-          this.$toasted.error(error.response.data.message, { icon: 'fingerprint' })
-        })
-    },
-    onResetSendMessage () {
-      // 先移除错误
-      $('#sendMessageForm .form-control-feedback').remove()
-      $('#sendMessageForm .form-group.u-has-error-v1').removeClass('u-has-error-v1')
-      // 再隐藏 Modal
-      $('#sendMessageModal').modal('hide')
-      // this.getPosts()
-      this.$toasted.info(`Cancelled, no words send to ${this.user.username}.`, { icon: 'fingerprint' })
     },
     onSubmitAddPost (e) {
       this.postForm.errors = 0  // 重置

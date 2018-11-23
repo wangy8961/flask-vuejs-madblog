@@ -3,9 +3,9 @@
     <router-link v-bind:to="{ path: `/user/${post.author.id}` }" v-bind:title="post.author.name || post.author.username">
       <span v-if="post.is_new" class="d-inline-block g-pos-rel">
         <span class="u-badge-v2--xs u-badge--top-left g-bg-red g-mt-7 g-ml-7"></span>
-        <img class="d-flex g-width-50 g-height-50 g-mt-3 g-mr-20" v-bind:src="post.author.avatar" v-bind:alt="post.author.name || post.author.username">
+        <img class="d-flex g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded-circle rounded mCS_img_loaded g-mt-3 g-mr-15" v-bind:src="post.author.avatar" v-bind:alt="post.author.name || post.author.username">
       </span>
-      <img v-else class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="post.author.avatar" v-bind:alt="post.author.name || post.author.username">
+      <img v-else class="d-flex g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded-circle rounded mCS_img_loaded g-mt-3 g-mr-15" v-bind:src="post.author.avatar" v-bind:alt="post.author.name || post.author.username">
     </router-link>
     
     <div class="media-body">

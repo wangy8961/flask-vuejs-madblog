@@ -41,9 +41,9 @@
           <router-link v-bind:to="{ path: `/user/${like.user.id}` }">  
             <span v-if="like.is_new" class="d-inline-block g-pos-rel">
               <span class="u-badge-v2--xs u-badge--top-left g-bg-red g-mt-7 g-ml-7"></span>
-              <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="like.user._links.avatar" v-bind:alt="like.user.name || like.user.username">
+              <img class="d-flex g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded mCS_img_loaded g-mt-3 g-mr-15" v-bind:src="like.user._links.avatar" v-bind:alt="like.user.name || like.user.username">
             </span>
-            <img v-else class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="like.user._links.avatar" v-bind:alt="like.user.name || like.user.username">
+            <img v-else class="d-flex g-brd-around g-brd-gray-light-v3 g-pa-2 g-width-40 g-height-40 rounded mCS_img_loaded g-mt-3 g-mr-15" v-bind:src="like.user._links.avatar" v-bind:alt="like.user.name || like.user.username">
           </router-link>
           <div class="media-body">
             <div class="g-mb-15">
@@ -84,7 +84,7 @@
     </div>
   
     <!-- Pagination #04 -->
-    <div v-if="likes && likes._meta.total_pages > 1">
+    <div v-if="likes">
       <pagination
         v-bind:cur-page="likes._meta.page"
         v-bind:per-page="likes._meta.per_page"

@@ -89,6 +89,17 @@ class User(PaginatedAPIMixin, db.Model):
     # 用户的通知
     notifications = db.relationship('Notification', backref='user',
                                     lazy='dynamic', cascade='all, delete-orphan')
+    # 用户发送的私信
+    messages_sent = db.relationship('Message', foreign_keys='Message.sender_id',
+                                    backref='sender', lazy='dynamic',
+                                    cascade='all, delete-orphan')
+    # 用户接收的私信
+    messages_received = db.relationship('Message',
+                                        foreign_keys='Message.recipient_id',
+                                        backref='recipient', lazy='dynamic',
+                                        cascade='all, delete-orphan')
+    # 用户最后一次查看私信的时间
+    last_messages_read_time = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -207,14 +218,26 @@ class User(PaginatedAPIMixin, db.Model):
         return n
 
     def new_recived_comments(self):
-        '''用户发布的文章下面收到的新评论计数'''
+        '''用户收到的新评论计数
+        包括:
+        1. 用户的所有文章下面新增的评论
+        2. 用户发表的评论(或下面的子孙)被人回复了
+        '''
         last_read_time = self.last_recived_comments_read_time or datetime(1900, 1, 1)
         # 用户发布的所有文章
         user_posts_ids = [post.id for post in self.posts.all()]
-        # 用户收到的所有评论，即评论的 post_id 在 user_posts_ids 集合中，且评论的 author 不是当前用户（即文章的作者）
-        recived_comments = Comment.query.filter(Comment.post_id.in_(user_posts_ids), Comment.author != self).order_by(Comment.mark_read, Comment.timestamp.desc())
-        # 新评论
-        return recived_comments.filter(Comment.timestamp > last_read_time).count()
+        # 用户文章下面的新评论, 即评论的 post_id 在 user_posts_ids 集合中，且评论的 author 不是自己(文章的作者)
+        q1 = set(Comment.query.filter(Comment.post_id.in_(user_posts_ids), Comment.author != self).all())
+
+        # 用户发表的评论被人回复了，找到每个用户评论的所有子孙
+        q2 = set()
+        for c in self.comments:
+            q2 = q2 | c.get_descendants()
+        q2 = q2 - set(self.comments.all())  # 除去子孙中，用户自己发的(因为是多级评论，用户可能还会在子孙中盖楼)，自己回复的不用通知
+        # 用户收到的总评论集合为 q1 与 q2 的并集
+        recived_comments = q1 | q2
+        # 最后，再过滤掉 last_read_time 之前的评论
+        return len([c for c in recived_comments if c.timestamp > last_read_time])
 
     def new_follows(self):
         '''用户的新粉丝计数'''
@@ -231,17 +254,24 @@ class User(PaginatedAPIMixin, db.Model):
         for c in comments:
             # 获取点赞时间
             for u in c.likers:
-                res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
-                timestamp = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
-                # 判断本条点赞记录是否为新的
-                if timestamp > last_read_time:
-                    new_likes_count += 1
+                if u != self:  # 用户自己点赞自己的评论不需要被通知
+                    res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
+                    timestamp = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
+                    # 判断本条点赞记录是否为新的
+                    if timestamp > last_read_time:
+                        new_likes_count += 1
         return new_likes_count
 
     def new_followeds_posts(self):
         '''用户关注的人的新发布的文章计数'''
         last_read_time = self.last_followeds_posts_read_time or datetime(1900, 1, 1)
         return self.followeds_posts().filter(Post.timestamp > last_read_time).count()
+
+    def new_recived_messages(self):
+        '''用户未读的私信计数'''
+        last_read_time = self.last_messages_read_time or datetime(1900, 1, 1)
+        return Message.query.filter_by(recipient=self).filter(
+            Message.timestamp > last_read_time).count()
 
 
 class Post(PaginatedAPIMixin, db.Model):
@@ -324,7 +354,7 @@ class Comment(PaginatedAPIMixin, db.Model):
         return '<Comment {}>'.format(self.id)
 
     def get_descendants(self):
-        '''获取一级评论的所有子孙'''
+        '''获取评论的所有子孙'''
         data = set()
 
         def descendants(comment):
@@ -333,6 +363,17 @@ class Comment(PaginatedAPIMixin, db.Model):
                 for child in comment.children:
                     descendants(child)
         descendants(self)
+        return data
+
+    def get_ancestors(self):
+        '''获取评论的所有祖先'''
+        data = []
+
+        def ancestors(comment):
+            if comment.parent:
+                data.append(comment.parent)
+                ancestors(comment.parent)
+        ancestors(self)
         return data
 
     def to_dict(self):
@@ -415,6 +456,38 @@ class Notification(db.Model):  # 不需要分页
             '_links': {
                 'self': url_for('api.get_notification', id=self.id),
                 'user_url': url_for('api.get_user', id=self.user_id)
+            }
+        }
+        return data
+
+    def from_dict(self, data):
+        for field in ['body', 'timestamp']:
+            if field in data:
+                setattr(self, field, data[field])
+
+
+class Message(PaginatedAPIMixin, db.Model):
+    __tablename__ = 'messages'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __repr__(self):
+        return '<Message {}>'.format(self.id)
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'body': self.body,
+            'timestamp': self.timestamp,
+            'sender': self.sender.to_dict(),
+            'recipient': self.recipient.to_dict(),
+            '_links': {
+                'self': url_for('api.get_message', id=self.id),
+                'sender_url': url_for('api.get_user', id=self.sender_id),
+                'recipient_url': url_for('api.get_user', id=self.recipient_id)
             }
         }
         return data

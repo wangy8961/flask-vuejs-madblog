@@ -9,6 +9,8 @@
 
 
 ![pic 01](http://www.madmalls.com/admin/medias/uploaded/madblog-xuan-chuan-tu-547e5830.png)
+![pic 02](http://www.madmalls.com/admin/medias/uploaded/1-gei-yong-hu-fa-si-xin-76f4a538.png)
+![pic 03](http://www.madmalls.com/admin/medias/uploaded/github-madblog-xuan-chuan-tu-02-c023d0d7.png)
 
 
 # 1. Flask Vue.js全栈开发教程系列
@@ -23,7 +25,9 @@
 - [Flask Vue.js全栈开发｜第8章：单元测试](http://www.madmalls.com/blog/post/flask-unit-test/)
 - [Flask Vue.js全栈开发｜第9章：用户评论](http://www.madmalls.com/blog/post/user-comments/)
 - [Flask Vue.js全栈开发｜第10章：用户通知](http://www.madmalls.com/blog/post/user-notifications/)
-- 私信 (敬请期待)
+- [Flask Vue.js全栈开发｜第11章：私信](http://www.madmalls.com/blog/post/send-private-messages/)
+- 黑名单 (敬请期待)
+- 收藏文章 (敬请期待)
 - 权限管理 (敬请期待)
 - 邮件的用处 (敬请期待)
 - 修改用户设置 (敬请期待)

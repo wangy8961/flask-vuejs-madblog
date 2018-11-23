@@ -6,7 +6,7 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request, error_response
 from app.extensions import db
-from app.models import comments_likes, User, Post, Comment, Notification
+from app.models import comments_likes, User, Post, Comment, Notification, Message
 
 
 @bp.route('/users/', methods=['POST'])
@@ -159,6 +159,7 @@ def unfollow(id):
 @bp.route('/users/<int:id>/followeds/', methods=['GET'])
 @token_auth.login_required
 def get_followeds(id):
+    '''返回用户已关注的人的列表'''
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     per_page = min(
@@ -184,6 +185,7 @@ def get_followeds(id):
 @bp.route('/users/<int:id>/followers/', methods=['GET'])
 @token_auth.login_required
 def get_followers(id):
+    '''返回用户的粉丝列表'''
     user = User.query.get_or_404(id)
     page = request.args.get('page', 1, type=int)
     per_page = min(
@@ -208,18 +210,10 @@ def get_followers(id):
     for item in data['items']:
         if item['timestamp'] > last_read_time:
             item['is_new'] = True
-    # 需要考虑分页的问题，比如新粉丝有25个，默认分页是每页10个，
-    # 如果用户请求第一页时就更新 last_follows_read_time，那么后15个就被认为不是新粉丝了，这是不对的
-    if data['_meta']['page'] * data['_meta']['per_page'] >= user.new_follows():
-        # 更新 last_follows_read_time 属性值
-        user.last_follows_read_time = datetime.utcnow()
-        # 将新粉丝通知的计数归零
-        user.add_notification('unread_follows_count', 0)
-    else:
-        # 用户剩余未查看的新粉丝数
-        n = user.new_follows() - data['_meta']['page'] * data['_meta']['per_page']
-        # 将新粉丝通知的计数更新为未读数
-        user.add_notification('unread_follows_count', n)
+    # 更新 last_follows_read_time 属性值
+    user.last_follows_read_time = datetime.utcnow()
+    # 将新粉丝通知的计数归零
+    user.add_notification('unread_follows_count', 0)
     db.session.commit()
     return jsonify(data)
 
@@ -261,18 +255,10 @@ def get_user_followeds_posts(id):
     for item in data['items']:
         if item['timestamp'] > last_read_time:
             item['is_new'] = True
-    # 需要考虑分页的问题，比如新文章有25篇，默认分页是每页10篇，
-    # 如果用户请求第一页时就更新 last_followeds_posts_read_time，那么后15篇就被认为不是新文章了，这是不对的
-    if data['_meta']['page'] * data['_meta']['per_page'] >= user.new_followeds_posts():
-        # 更新 last_followeds_posts_read_time 属性值
-        user.last_followeds_posts_read_time = datetime.utcnow()
-        # 将新文章通知的计数归零
-        user.add_notification('unread_followeds_posts_count', 0)
-    else:
-        # 用户剩余未查看的新文章数
-        n = user.new_followeds_posts() - data['_meta']['page'] * data['_meta']['per_page']
-        # 将新文章通知的计数更新为未读数
-        user.add_notification('unread_followeds_posts_count', n)
+    # 更新 last_followeds_posts_read_time 属性值
+    user.last_followeds_posts_read_time = datetime.utcnow()
+    # 将新文章通知的计数归零
+    user.add_notification('unread_followeds_posts_count', 0)
     db.session.commit()
     return jsonify(data)
 
@@ -306,29 +292,29 @@ def get_user_recived_comments(id):
         request.args.get(
             'per_page', current_app.config['COMMENTS_PER_PAGE'], type=int), 100)
     # 用户发布的所有文章ID集合
-    user_posts_ids = [post.id for post in g.current_user.posts.all()]
-    # 评论的 post_id 在 user_posts_ids 集合中，且评论的 author 不是当前用户（即文章的作者）
-    data = Comment.to_collection_dict(
-        Comment.query.filter(Comment.post_id.in_(user_posts_ids), Comment.author != g.current_user)
-        .order_by(Comment.mark_read, Comment.timestamp.desc()),
-        page, per_page, 'api.get_user_recived_comments', id=id)
+    user_posts_ids = [post.id for post in user.posts.all()]
+    # 用户文章下面的新评论, 即评论的 post_id 在 user_posts_ids 集合中，且评论的 author 不是自己(文章的作者)
+    q1 = Comment.query.filter(Comment.post_id.in_(user_posts_ids), Comment.author != user)
+    # 用户发表的评论被人回复了
+    descendants = set()
+    for c in user.comments:
+        descendants = descendants | c.get_descendants()
+    descendants = descendants - set(user.comments.all())  # 除去自己在底下回复的
+    descendants_ids = [c.id for c in descendants]
+    q2 = Comment.query.filter(Comment.id.in_(descendants_ids))
+    # 按时间倒序排列构成用户收到的所有评论
+    recived_comments = q1.union(q2).order_by(Comment.mark_read, Comment.timestamp.desc())
+    # 分页后的 JSON 数据
+    data = Comment.to_collection_dict(recived_comments, page, per_page, 'api.get_user_recived_comments', id=id)
     # 标记哪些评论是新的
     last_read_time = user.last_recived_comments_read_time or datetime(1900, 1, 1)
     for item in data['items']:
         if item['timestamp'] > last_read_time:
             item['is_new'] = True
-    # 需要考虑分页的问题，比如新评论有25条，默认分页是每页10条，
-    # 如果用户请求第一页时就更新 last_recived_comments_read_time，那么后15条就被认为不是新评论了，这是不对的
-    if data['_meta']['page'] * data['_meta']['per_page'] >= user.new_recived_comments():
-        # 更新 last_recived_comments_read_time 属性值
-        user.last_recived_comments_read_time = datetime.utcnow()
-        # 将新评论通知的计数归零
-        user.add_notification('unread_recived_comments_count', 0)
-    else:
-        # 用户剩余未查看的新评论数
-        n = user.new_recived_comments() - data['_meta']['page'] * data['_meta']['per_page']
-        # 将新评论通知的计数更新为未读数
-        user.add_notification('unread_recived_comments_count', n)
+    # 更新 last_recived_comments_read_time 属性值
+    user.last_recived_comments_read_time = datetime.utcnow()
+    # 将新评论通知的计数归零
+    user.add_notification('unread_recived_comments_count', 0)
     db.session.commit()
     return jsonify(data)
 
@@ -364,33 +350,137 @@ def get_user_recived_likes(id):
     for c in comments.items:
         # 重组数据，变成: (谁) (什么时间) 点赞了你的 (哪条评论)
         for u in c.likers:
-            data = {}
-            data['user'] = u.to_dict()
-            data['comment'] = c.to_dict()
-            # 获取点赞时间
-            res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
-            data['timestamp'] = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
-            # 标记本条点赞记录是否为新的
-            last_read_time = user.last_likes_read_time or datetime(1900, 1, 1)
-            if data['timestamp'] > last_read_time:
-                data['is_new'] = True
-            records['items'].append(data)
-    # 按 timestamp 排序一个字典列表(倒序，最新关注的人在最前面)
+            if u != user:  # 用户自己点赞自己的评论不需要被通知
+                data = {}
+                data['user'] = u.to_dict()
+                data['comment'] = c.to_dict()
+                # 获取点赞时间
+                res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
+                data['timestamp'] = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
+                # 标记本条点赞记录是否为新的
+                last_read_time = user.last_likes_read_time or datetime(1900, 1, 1)
+                if data['timestamp'] > last_read_time:
+                    data['is_new'] = True
+                records['items'].append(data)
+    # 按 timestamp 排序一个字典列表(倒序，最新点赞的人在最前面)
     records['items'] = sorted(records['items'], key=itemgetter('timestamp'), reverse=True)
-    # 还需要考虑分页的问题，比如新点赞有25条，默认分页是每页10条，
-    # 如果用户请求第一页时就更新 last_likes_read_time，那么后15条就被认为不是新点赞了，这是不对的
-    if records['_meta']['page'] * records['_meta']['per_page'] >= user.new_likes():
-        # 更新 last_likes_read_time 属性值
-        user.last_likes_read_time = datetime.utcnow()
-        # 将新点赞通知的计数归零
-        user.add_notification('unread_likes_count', 0)
-    else:
-        # 用户剩余未查看的新点赞数
-        n = user.new_likes() - records['_meta']['page'] * records['_meta']['per_page']
-        # 将新点赞通知的计数更新为未读数
-        user.add_notification('unread_likes_count', n)
-    db.session.commit() 
+    # 更新 last_likes_read_time 属性值
+    user.last_likes_read_time = datetime.utcnow()
+    # 将新点赞通知的计数归零
+    user.add_notification('unread_likes_count', 0)
+    db.session.commit()
     return jsonify(records)
+
+
+@bp.route('/users/<int:id>/messages-recipients/', methods=['GET'])
+@token_auth.login_required
+def get_user_messages_recipients(id):
+    '''我给哪些用户发过私信，按用户分组，返回我给各用户最后一次发送的私信
+    即: 我给 (谁) 最后一次 发了 (什么私信)'''
+    user = User.query.get_or_404(id)
+    if g.current_user != user:
+        return error_response(403)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['MESSAGES_PER_PAGE'], type=int), 100)
+    data = Message.to_collection_dict(
+        user.messages_sent.group_by(Message.recipient_id).order_by(Message.timestamp.desc()), page, per_page,
+        'api.get_user_messages_recipients', id=id)
+    # 我给每个用户发的私信，他们有没有未读的
+    for item in data['items']:
+        # 发给了谁
+        recipient = User.query.get(item['recipient']['id'])
+        # 总共给他发过多少条
+        item['total_count'] = user.messages_sent.filter_by(recipient_id=item['recipient']['id']).count()
+        # 他最后一次查看收到的私信的时间
+        last_read_time = recipient.last_messages_read_time or datetime(1900, 1, 1)
+        # item 是发给他的最后一条，如果最后一条不是新的，肯定就没有啦
+        if item['timestamp'] > last_read_time:
+            item['is_new'] = True
+            # 继续获取发给这个用户的私信有几条是新的
+            item['new_count'] = user.messages_sent.filter_by(recipient_id=item['recipient']['id']).filter(Message.timestamp > last_read_time).count()
+    return jsonify(data)
+
+
+@bp.route('/users/<int:id>/messages-senders/', methods=['GET'])
+@token_auth.login_required
+def get_user_messages_senders(id):
+    '''哪些用户给我发过私信，按用户分组，返回各用户最后一次发送的私信
+    即: (谁) 最后一次 给我发了 (什么私信)'''
+    user = User.query.get_or_404(id)
+    if g.current_user != user:
+        return error_response(403)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['MESSAGES_PER_PAGE'], type=int), 100)
+    data = Message.to_collection_dict(
+        user.messages_received.group_by(Message.sender_id).order_by(Message.timestamp.desc()), page, per_page,
+        'api.get_user_messages_senders', id=id)
+    # 这个用户发给我的私信有没有新的
+    last_read_time = user.last_messages_read_time or datetime(1900, 1, 1)
+    new_items = []  # 最后一条是新的
+    not_new_items = []  # 最后一条不是新的
+    for item in data['items']:
+        # item 是他发的最后一条，如果最后一条不是新的，肯定就没有啦
+        if item['timestamp'] > last_read_time:
+            item['is_new'] = True
+            # 继续获取这个用户发的私信有几条是新的
+            item['new_count'] = user.messages_received.filter_by(sender_id=item['sender']['id']).filter(Message.timestamp > last_read_time).count()
+            new_items.append(item)
+        else:
+            not_new_items.append(item)
+    # 对那些最后一条是新的按 timestamp 正序排序，不然用户更新 last_messages_read_time 会导致时间靠前的全部被标记已读
+    new_items = sorted(new_items, key=itemgetter('timestamp'))
+    data['items'] = new_items + not_new_items
+    return jsonify(data)
+
+
+@bp.route('/users/<int:id>/history-messages/', methods=['GET'])
+@token_auth.login_required
+def get_user_history_messages(id):
+    '''返回我与某个用户(由查询参数 from 获取)之间的所有私信记录'''
+    user = User.query.get_or_404(id)
+    if g.current_user != user:
+        return error_response(403)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['MESSAGES_PER_PAGE'], type=int), 100)
+    from_id = request.args.get('from', type=int)
+    if not from_id:  # 必须提供聊天的对方用户的ID
+        return bad_request('You must provide the user id of opposite site.')
+    # 对方发给我的
+    q1 = Message.query.filter(Message.sender_id == from_id, Message.recipient_id == id)
+    # 我发给对方的
+    q2 = Message.query.filter(Message.sender_id == id, Message.recipient_id == from_id)
+    # 按时间正序排列构成完整的对话时间线
+    history_messages = q1.union(q2).order_by(Message.timestamp)
+    data = Message.to_collection_dict(history_messages, page, per_page, 'api.get_user_history_messages', id=id)
+    # 现在这一页的 data['items'] 包含对方发给我和我发给对方的
+    # 需要创建一个新列表，只包含对方发给我的，用来查看哪些私信是新的
+    recived_messages = [item for item in data['items'] if item['sender']['id'] != id]
+    sent_messages = [item for item in data['items'] if item['sender']['id'] == id]
+    # 然后，标记哪些私信是新的
+    last_read_time = user.last_messages_read_time or datetime(1900, 1, 1)
+    new_count = 0
+    for item in recived_messages:
+        if item['timestamp'] > last_read_time:
+            item['is_new'] = True
+            new_count += 1
+    if new_count > 0:
+        # 更新 last_messages_read_time 属性值为收到的私信列表最后一条(最近的)的时间
+        user.last_messages_read_time = recived_messages[-1]['timestamp']
+        db.session.commit()  # 先提交数据库，这样 user.new_recived_messages() 才会变化
+        # 更新用户的新私信通知的计数
+        user.add_notification('unread_messages_count', user.new_recived_messages())
+        db.session.commit()
+    # 最后，重新组合 data['items']，因为收到的新私信添加了 is_new 标记
+    messages = recived_messages + sent_messages
+    messages.sort(key=data['items'].index)  # 保持 messages 列表元素的顺序跟 data['items'] 一样
+    data['items'] = messages
+    return jsonify(data)
 
 
 @bp.route('/users/<int:id>/notifications/', methods=['GET'])

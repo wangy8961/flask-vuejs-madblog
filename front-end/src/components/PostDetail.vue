@@ -206,7 +206,7 @@
             <div v-for="(comment, index) in comments.items" v-bind:key="index">
               <div v-bind:id="'c' + comment.id" class="comment-item media g-brd-around g-brd-gray-light-v4 g-pa-30 g-mb-20">
                 <router-link v-bind:to="{ path: `/user/${comment.author.id}` }">  
-                  <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
+                  <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="comment.author.avatar" v-bind:alt="comment.author.name || comment.author.username">
                 </router-link>
                 <div class="media-body">
                   <div class="g-mb-15">
@@ -264,7 +264,7 @@
                   v-for="(child, cindex) in comment.descendants" v-bind:key="cindex"
                   v-bind:id="'c' + child.id">
                 <router-link v-bind:to="{ path: `/user/${child.author.id}` }">  
-                  <img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" v-bind:src="child.author.avatar" v-bind:alt="child.author.name || child.author.username">
+                  <img class="d-flex g-width-50 g-height-50 rounded-circle g-brd-around g-brd-gray-light-v4 g-pa-2 g-mt-3 g-mr-15" v-bind:src="child.author.avatar" v-bind:alt="child.author.name || child.author.username">
                 </router-link>
                 <div class="media-body">
                   <div class="g-mb-15">
