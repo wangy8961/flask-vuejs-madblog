@@ -112,6 +112,21 @@ def delete_user(id):
     return '', 204
 
 
+@bp.route('/users/<int:id>/notifications/', methods=['GET'])
+@token_auth.login_required
+def get_user_notifications(id):
+    '''返回该用户的新通知'''
+    user = User.query.get_or_404(id)
+    if g.current_user != user:
+        return error_response(403)
+    # 只返回上次看到的通知以来发生的新通知
+    # 比如用户在 10:00:00 请求一次该API，在 10:00:10 再次请求该API只会返回 10:00:00 之后产生的新通知
+    since = request.args.get('since', 0.0, type=float)
+    notifications = user.notifications.filter(
+        Notification.timestamp > since).order_by(Notification.timestamp.asc())
+    return jsonify([n.to_dict() for n in notifications])
+
+
 ###
 # 关注 / 取消关注
 ###
@@ -423,6 +438,9 @@ def get_user_messages_senders(id):
     new_items = []  # 最后一条是新的
     not_new_items = []  # 最后一条不是新的
     for item in data['items']:
+        # 判断我有没有拉黑他
+        if user.is_blocking(User.query.get(item['sender']['id'])):
+            item['is_blocking'] = True
         # item 是他发的最后一条，如果最后一条不是新的，肯定就没有啦
         if item['timestamp'] > last_read_time:
             item['is_new'] = True
@@ -483,16 +501,38 @@ def get_user_history_messages(id):
     return jsonify(data)
 
 
-@bp.route('/users/<int:id>/notifications/', methods=['GET'])
+###
+# 拉黑 / 取消拉黑
+###
+@bp.route('/block/<int:id>', methods=['GET'])
 @token_auth.login_required
-def get_user_notifications(id):
-    '''返回该用户的新通知'''
+def block(id):
+    '''开始拉黑一个用户'''
     user = User.query.get_or_404(id)
-    if g.current_user != user:
-        return error_response(403)
-    # 只返回上次看到的通知以来发生的新通知
-    # 比如用户在 10:00:00 请求一次该API，在 10:00:10 再次请求该API只会返回 10:00:00 之后产生的新通知
-    since = request.args.get('since', 0.0, type=float)
-    notifications = user.notifications.filter(
-        Notification.timestamp > since).order_by(Notification.timestamp.asc())
-    return jsonify([n.to_dict() for n in notifications])
+    if g.current_user == user:
+        return bad_request('You cannot block yourself.')
+    if g.current_user.is_blocking(user):
+        return bad_request('You have already blocked that user.')
+    g.current_user.block(user)
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'You are now blocking %s.' % (user.name if user.name else user.username)
+    })
+
+
+@bp.route('/unblock/<int:id>', methods=['GET'])
+@token_auth.login_required
+def unblock(id):
+    '''取消拉黑一个用户'''
+    user = User.query.get_or_404(id)
+    if g.current_user == user:
+        return bad_request('You cannot unblock yourself.')
+    if not g.current_user.is_blocking(user):
+        return bad_request('You are not blocking this user.')
+    g.current_user.unblock(user)
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'You are not blocking %s anymore.' % (user.name if user.name else user.username)
+    })

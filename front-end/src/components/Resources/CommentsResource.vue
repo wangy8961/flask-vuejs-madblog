@@ -92,7 +92,7 @@
     </div>
   
     <!-- Pagination #04 -->
-    <div v-if="comments && comments._meta.total_pages > 1">
+    <div v-if="comments">
       <pagination
         v-bind:cur-page="comments._meta.page"
         v-bind:per-page="comments._meta.per_page"

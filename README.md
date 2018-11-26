@@ -8,7 +8,7 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
-> **测试Demo: http://95.163.198.43/**
+# Demo: http://95.163.198.43/
 
 
 ![pic 01](http://www.madmalls.com/admin/medias/uploaded/madblog-xuan-chuan-tu-547e5830.png)
@@ -29,7 +29,7 @@
 - [Flask Vue.js全栈开发｜第9章：用户评论](http://www.madmalls.com/blog/post/user-comments/)
 - [Flask Vue.js全栈开发｜第10章：用户通知](http://www.madmalls.com/blog/post/user-notifications/)
 - [Flask Vue.js全栈开发｜第11章：私信](http://www.madmalls.com/blog/post/send-private-messages/)
-- 黑名单 (敬请期待)
+- [Flask Vue.js全栈开发｜第12章：黑名单](http://www.madmalls.com/blog/post/blacklist/)
 - 收藏文章 (敬请期待)
 - 权限管理 (敬请期待)
 - 邮件的用处 (敬请期待)
