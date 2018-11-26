@@ -21,6 +21,7 @@ import Email from '@/components/Settings/Email'
 import Notification from '@/components/Settings/Notification'
 // 用户资源
 import Resource from '@/components/Resources/Resource'
+import LikedPostsResource from '@/components/Resources/LikedPosts'
 import CommentsResource from '@/components/Resources/CommentsResource'
 import MessagesIndexResource from '@/components/Resources/Messages/Index'
 import SentMessagesResource from '@/components/Resources/Messages/List'
@@ -31,7 +32,8 @@ import RecivedComments from '@/components/Notifications/RecivedComments'
 import MessagesIndex from '@/components/Notifications/Messages/Index'
 import RecivedMessages from '@/components/Notifications/Messages/List'
 import MessagesHistory from '@/components/Notifications/Messages/History'
-import Likes from '@/components/Notifications/Likes'
+import PostsLikes from '@/components/Notifications/PostsLikes'
+import CommentsLikes from '@/components/Notifications/CommentsLikes'
 import FollowingPosts from '@/components/Notifications/FollowingPosts'
 // 博客详情页
 import PostDetail from '@/components/PostDetail'
@@ -141,6 +143,7 @@ const router = new Router({
       children: [
         { path: '', component: Posts },
         { path: 'posts', name: 'PostsResource', component: Posts },
+        { path: 'liked-posts', name: 'LikedPostsResource', component: LikedPostsResource },
         { path: 'comments', name: 'CommentsResource', component: CommentsResource },
         { 
           path: 'messages', 
@@ -175,7 +178,8 @@ const router = new Router({
           ]
         },
         { path: 'follows', name: 'Follows', component: Followers },
-        { path: 'likes', name: 'Likes', component: Likes },
+        { path: 'posts-likes', name: 'PostsLikes', component: PostsLikes },
+        { path: 'comments-likes', name: 'CommentsLikes', component: CommentsLikes },
         { path: 'following-posts', name: 'FollowingPosts', component: FollowingPosts }
       ],
       meta: {

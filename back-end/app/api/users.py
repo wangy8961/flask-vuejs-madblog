@@ -6,7 +6,7 @@ from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request, error_response
 from app.extensions import db
-from app.models import comments_likes, User, Post, Comment, Notification, Message
+from app.models import comments_likes, posts_likes, User, Post, Comment, Notification, Message
 
 
 @bp.route('/users/', methods=['POST'])
@@ -251,6 +251,21 @@ def get_user_posts(id):
     return jsonify(data)
 
 
+@bp.route('/users/<int:id>/liked-posts/', methods=['GET'])
+@token_auth.login_required
+def get_user_liked_posts(id):
+    '''返回该用户喜欢别人的文章列表'''
+    user = User.query.get_or_404(id)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
+    data = Post.to_collection_dict(
+        user.liked_posts.order_by(Post.timestamp.desc()), page, per_page,
+        'api.get_user_liked_posts', id=id)
+    return jsonify(data)
+
+
 @bp.route('/users/<int:id>/followeds-posts/', methods=['GET'])
 @token_auth.login_required
 def get_user_followeds_posts(id):
@@ -334,10 +349,10 @@ def get_user_recived_comments(id):
     return jsonify(data)
 
 
-@bp.route('/users/<int:id>/recived-likes/', methods=['GET'])
+@bp.route('/users/<int:id>/recived-comments-likes/', methods=['GET'])
 @token_auth.login_required
-def get_user_recived_likes(id):
-    '''返回该用户收到的赞和喜欢'''
+def get_user_recived_comments_likes(id):
+    '''返回该用户收到的评论赞'''
     user = User.query.get_or_404(id)
     if g.current_user != user:
         return error_response(403)
@@ -357,9 +372,9 @@ def get_user_recived_likes(id):
             'total_items': comments.total
         },
         '_links': {
-            'self': url_for('api.get_user_recived_likes', page=page, per_page=per_page, id=id),
-            'next': url_for('api.get_user_recived_likes', page=page + 1, per_page=per_page, id=id) if comments.has_next else None,
-            'prev': url_for('api.get_user_recived_likes', page=page - 1, per_page=per_page, id=id) if comments.has_prev else None
+            'self': url_for('api.get_user_recived_comments_likes', page=page, per_page=per_page, id=id),
+            'next': url_for('api.get_user_recived_comments_likes', page=page + 1, per_page=per_page, id=id) if comments.has_next else None,
+            'prev': url_for('api.get_user_recived_comments_likes', page=page - 1, per_page=per_page, id=id) if comments.has_prev else None
         }
     }
     for c in comments.items:
@@ -373,16 +388,69 @@ def get_user_recived_likes(id):
                 res = db.engine.execute("select * from comments_likes where user_id={} and comment_id={}".format(u.id, c.id))
                 data['timestamp'] = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
                 # 标记本条点赞记录是否为新的
-                last_read_time = user.last_likes_read_time or datetime(1900, 1, 1)
+                last_read_time = user.last_comments_likes_read_time or datetime(1900, 1, 1)
                 if data['timestamp'] > last_read_time:
                     data['is_new'] = True
                 records['items'].append(data)
     # 按 timestamp 排序一个字典列表(倒序，最新点赞的人在最前面)
     records['items'] = sorted(records['items'], key=itemgetter('timestamp'), reverse=True)
-    # 更新 last_likes_read_time 属性值
-    user.last_likes_read_time = datetime.utcnow()
+    # 更新 last_comments_likes_read_time 属性值
+    user.last_comments_likes_read_time = datetime.utcnow()
     # 将新点赞通知的计数归零
-    user.add_notification('unread_likes_count', 0)
+    user.add_notification('unread_comments_likes_count', 0)
+    db.session.commit()
+    return jsonify(records)
+
+
+@bp.route('/users/<int:id>/recived-posts-likes/', methods=['GET'])
+@token_auth.login_required
+def get_user_recived_posts_likes(id):
+    '''返回该用户收到的文章喜欢'''
+    user = User.query.get_or_404(id)
+    if g.current_user != user:
+        return error_response(403)
+    page = request.args.get('page', 1, type=int)
+    per_page = min(
+        request.args.get(
+            'per_page', current_app.config['POSTS_PER_PAGE'], type=int), 100)
+    # 用户哪些文章被喜欢/收藏了，分页
+    posts = user.posts.join(posts_likes).paginate(page, per_page)
+    # 喜欢记录
+    records = {
+        'items': [],
+        '_meta': {
+            'page': page,
+            'per_page': per_page,
+            'total_pages': posts.pages,
+            'total_items': posts.total
+        },
+        '_links': {
+            'self': url_for('api.get_user_recived_posts_likes', page=page, per_page=per_page, id=id),
+            'next': url_for('api.get_user_recived_posts_likes', page=page + 1, per_page=per_page, id=id) if posts.has_next else None,
+            'prev': url_for('api.get_user_recived_posts_likes', page=page - 1, per_page=per_page, id=id) if posts.has_prev else None
+        }
+    }
+    for p in posts.items:
+        # 重组数据，变成: (谁) (什么时间) 喜欢了你的 (哪篇文章)
+        for u in p.likers:
+            if u != user:  # 用户自己喜欢自己的文章不需要被通知
+                data = {}
+                data['user'] = u.to_dict()
+                data['post'] = p.to_dict()
+                # 获取喜欢时间
+                res = db.engine.execute("select * from posts_likes where user_id={} and post_id={}".format(u.id, p.id))
+                data['timestamp'] = datetime.strptime(list(res)[0][2], '%Y-%m-%d %H:%M:%S.%f')
+                # 标记本条喜欢记录是否为新的
+                last_read_time = user.last_posts_likes_read_time or datetime(1900, 1, 1)
+                if data['timestamp'] > last_read_time:
+                    data['is_new'] = True
+                records['items'].append(data)
+    # 按 timestamp 排序一个字典列表(倒序，最新喜欢的人在最前面)
+    records['items'] = sorted(records['items'], key=itemgetter('timestamp'), reverse=True)
+    # 更新 last_posts_likes_read_time 属性值
+    user.last_posts_likes_read_time = datetime.utcnow()
+    # 将新喜欢通知的计数归零
+    user.add_notification('unread_posts_likes_count', 0)
     db.session.commit()
     return jsonify(records)
 

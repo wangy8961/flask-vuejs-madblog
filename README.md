@@ -30,7 +30,7 @@
 - [Flask Vue.js全栈开发｜第10章：用户通知](http://www.madmalls.com/blog/post/user-notifications/)
 - [Flask Vue.js全栈开发｜第11章：私信](http://www.madmalls.com/blog/post/send-private-messages/)
 - [Flask Vue.js全栈开发｜第12章：黑名单](http://www.madmalls.com/blog/post/blacklist/)
-- 收藏文章 (敬请期待)
+- [Flask Vue.js全栈开发｜第13章：喜欢文章](http://www.madmalls.com/blog/post/like-posts/)
 - 权限管理 (敬请期待)
 - 邮件的用处 (敬请期待)
 - 修改用户设置 (敬请期待)

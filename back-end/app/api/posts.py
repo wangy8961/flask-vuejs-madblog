@@ -144,3 +144,44 @@ def get_post_comments(id):
         from operator import itemgetter
         item['descendants'] = sorted(descendants, key=itemgetter('timestamp'))
     return jsonify(data)
+
+
+###
+# 文章被喜欢/收藏 或 被取消喜欢/取消收藏
+###
+@bp.route('/posts/<int:id>/like', methods=['GET'])
+@token_auth.login_required
+def like_post(id):
+    '''喜欢文章'''
+    post = Post.query.get_or_404(id)
+    post.liked_by(g.current_user)
+    db.session.add(post)
+    # 切记要先提交，先添加喜欢记录到数据库，因为 new_posts_likes() 会查询 posts_likes 关联表
+    db.session.commit()
+    # 给文章作者发送新喜欢通知
+    post.author.add_notification('unread_posts_likes_count',
+                                 post.author.new_posts_likes())
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'You are now liking this post.'
+    })
+
+
+@bp.route('/posts/<int:id>/unlike', methods=['GET'])
+@token_auth.login_required
+def unlike_post(id):
+    '''取消喜欢文章'''
+    post = Post.query.get_or_404(id)
+    post.unliked_by(g.current_user)
+    db.session.add(post)
+    # 切记要先提交，先添加喜欢记录到数据库，因为 new_posts_likes() 会查询 posts_likes 关联表
+    db.session.commit()
+    # 给文章作者发送新喜欢通知(需要自动减1)
+    post.author.add_notification('unread_posts_likes_count',
+                                 post.author.new_posts_likes())
+    db.session.commit()
+    return jsonify({
+        'status': 'success',
+        'message': 'You are not liking this post anymore.'
+    })
