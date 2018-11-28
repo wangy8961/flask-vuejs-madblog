@@ -78,6 +78,7 @@ export default {
 
       const path = '/api/users'
       const payload = {
+        confirm_email_base_url: window.location.href.split('/', 4).join('/') + '/unconfirmed/?token=',
         username: this.registerForm.username,
         email: this.registerForm.email,
         password: this.registerForm.password
@@ -85,7 +86,7 @@ export default {
       this.$axios.post(path, payload)
         .then((response) => {
           // handle success
-          this.$toasted.success('Congratulations, you are now a registered user !', { icon: 'fingerprint' })
+          this.$toasted.success('A confirmation email has been sent to you by email.', { icon: 'fingerprint' })
           this.$router.push('/login')
         })
         .catch((error) => {

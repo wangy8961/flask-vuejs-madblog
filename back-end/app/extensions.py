@@ -5,6 +5,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import MetaData
+from flask_mail import Mail
 
 # Flask-Cors plugin
 cors = CORS()
@@ -19,3 +20,5 @@ naming_convention = {
 db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 # Flask-Migrate plugin
 migrate = Migrate(render_as_batch=True)
+# Flask-Mail plugin
+mail = Mail()

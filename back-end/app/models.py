@@ -125,18 +125,22 @@ class User(PaginatedAPIMixin, db.Model):
         primaryjoin=(blacklist.c.user_id == id),
         secondaryjoin=(blacklist.c.block_id == id),
         backref=db.backref('sufferers', lazy='dynamic'), lazy='dynamic')
+    # 用户注册后，需要先确认邮箱
+    confirmed = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
     def set_password(self, password):
+        '''设置用户密码，保存为 Hash 值'''
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
+        '''验证密码与保存的 Hash 值是否匹配'''
         return check_password_hash(self.password_hash, password)
 
     def avatar(self, size):
-        '''头像'''
+        '''用户头像'''
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
@@ -154,6 +158,7 @@ class User(PaginatedAPIMixin, db.Model):
             'posts_count': self.posts.count(),
             'followeds_posts_count': self.followeds_posts().count(),
             'comments_count': self.comments.count(),
+            'confirmed': self.confirmed,
             '_links': {
                 'self': url_for('api.get_user', id=self.id),
                 'avatar': self.avatar(128),
@@ -176,13 +181,16 @@ class User(PaginatedAPIMixin, db.Model):
             self.set_password(data['password'])
 
     def ping(self):
+        '''更新用户的最后访问时间'''
         self.last_seen = datetime.utcnow()
         db.session.add(self)
 
     def get_jwt(self, expires_in=3600):
+        '''用户登录后，发放有效的 JWT'''
         now = datetime.utcnow()
         payload = {
             'user_id': self.id,
+            'confirmed': self.confirmed,
             'user_name': self.name if self.name else self.username,
             'user_avatar': base64.b64encode(self.avatar(24).
                                             encode('utf-8')).decode('utf-8'),
@@ -196,6 +204,7 @@ class User(PaginatedAPIMixin, db.Model):
 
     @staticmethod
     def verify_jwt(token):
+        '''验证 JWT 的有效性'''
         try:
             payload = jwt.decode(
                 token,
@@ -330,6 +339,66 @@ class User(PaginatedAPIMixin, db.Model):
                     if timestamp > last_read_time:
                         new_likes_count += 1
         return new_likes_count
+
+    def generate_confirm_jwt(self, expires_in=3600):
+        '''生成确认账户的 JWT'''
+        now = datetime.utcnow()
+        payload = {
+            'confirm': self.id,
+            'exp': now + timedelta(seconds=expires_in),
+            'iat': now
+        }
+        return jwt.encode(
+            payload,
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256').decode('utf-8')
+
+    def verify_confirm_jwt(self, token):
+        '''用户点击确认邮件中的URL后，需要检验 JWT，如果检验通过，则把新添加的 confirmed 属性设为 True'''
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'])
+        except (jwt.exceptions.ExpiredSignatureError,
+                jwt.exceptions.InvalidSignatureError,
+                jwt.exceptions.DecodeError) as e:
+            # Token过期，或被人修改，那么签名验证也会失败
+            return False
+        if payload.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
+
+    def generate_reset_password_jwt(self, expires_in=3600):
+        '''生成重置账户密码的 JWT'''
+        now = datetime.utcnow()
+        payload = {
+            'reset_password': self.id,
+            'exp': now + timedelta(seconds=expires_in),
+            'iat': now
+        }
+        return jwt.encode(
+            payload,
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def verify_reset_password_jwt(token):
+        '''用户点击重置密码邮件中的URL后，需要检验 JWT
+        如果检验通过，则返回 JWT 中存储的 id 所对应的用户实例'''
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'])
+        except (jwt.exceptions.ExpiredSignatureError,
+                jwt.exceptions.InvalidSignatureError,
+                jwt.exceptions.DecodeError) as e:
+            # Token过期，或被人修改，那么签名验证也会失败
+            return None
+        return User.query.get(payload.get('reset_password'))
 
 
 class Post(PaginatedAPIMixin, db.Model):

@@ -32,7 +32,7 @@ Vue.use(VueToasted, {
   // 显示在页面哪个位置
   position: 'top-center',
   // 显示多久时间（毫秒）
-  duration: 3000,
+  duration: 10000,
   // 支持哪个图标集合
   iconPack : 'material', // set your iconPack, defaults to material. material|fontawesome|custom-class
   // 可以执行哪些动作
