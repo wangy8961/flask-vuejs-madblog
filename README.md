@@ -8,12 +8,12 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
-# Demo: http://95.163.198.43/ (IP已被封)
+> 本系列的最新代码及使用方式将持续更新到： http://www.madmalls.com/blog/post/latest-code/
 
 
 ![pic 01](http://www.madmalls.com/api/medias/uploaded/madblog-xuan-chuan-tu-547e5830.png)
-![pic 02](http://www.madmalls.com/api/medias/uploaded/1-gei-yong-hu-fa-si-xin-76f4a538.png)
-![pic 03](http://www.madmalls.com/api/medias/uploaded/github-madblog-xuan-chuan-tu-02-c023d0d7.png)
+![pic 02](http://www.madmalls.com/api/medias/uploaded/github-madblog-xuan-chuan-tu-02-c023d0d7.png)
+![pic 03](http://www.madmalls.com/api/medias/uploaded/madblogxuan-chuan-tu-02-cf3edae1.png)
 
 
 # 1. Flask Vue.js全栈开发教程系列
@@ -32,11 +32,10 @@
 - [Flask Vue.js全栈开发｜第12章：黑名单](http://www.madmalls.com/blog/post/blacklist/)
 - [Flask Vue.js全栈开发｜第13章：喜欢文章](http://www.madmalls.com/blog/post/like-posts/)
 - [Flask Vue.js全栈开发｜第14章：邮件支持](http://www.madmalls.com/blog/post/email-support/)
-- 管理员视角 (敬请期待)
-- 权限管理 (敬请期待)
-- 修改用户设置 (敬请期待)
-- Celery任务队列与定时任务 (敬请期待)
-- Elasticsearch全站搜索 (敬请期待)
+- [Flask Vue.js全栈开发｜第15章：权限管理](http://www.madmalls.com/blog/post/rbac/)
+- [Flask Vue.js全栈开发｜第16章：管理后台](http://www.madmalls.com/blog/post/admin/)
+- Elasticsearch全文搜索 (敬请期待)
+- Celery后台任务队列与定时任务 (敬请期待)
 - 国际化 (敬请期待)
 - 性能优化 (敬请期待)
 - Linux云主机部署 (敬请期待)
