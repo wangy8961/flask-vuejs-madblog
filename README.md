@@ -11,7 +11,7 @@
 > 本系列的最新代码及使用方式将持续更新到： http://www.madmalls.com/blog/post/latest-code/
 
 
-![pic 01](http://www.madmalls.com/api/medias/uploaded/madblog-xuan-chuan-tu-547e5830.png)
+![pic 01](http://www.madmalls.com/api/medias/uploaded/madblogxuan-chuan-tu-01-60c24e78.png)
 ![pic 02](http://www.madmalls.com/api/medias/uploaded/github-madblog-xuan-chuan-tu-02-c023d0d7.png)
 ![pic 03](http://www.madmalls.com/api/medias/uploaded/madblogxuan-chuan-tu-02-cf3edae1.png)
 
