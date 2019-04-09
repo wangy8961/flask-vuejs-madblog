@@ -1,4 +1,4 @@
-# [Flask Vue.js全栈开发](http://www.madmalls.com/blog/category/vuejs/)
+# [Flask Vue.js全栈开发的最新代码及使用方式](http://www.madmalls.com/blog/post/latest-code/)
 
 [![Python](https://img.shields.io/badge/python-v3.4%2B-blue.svg)](https://www.python.org/)
 [![Vue.js](https://img.shields.io/badge/Vue.js-v2.5.2-orange.svg)](https://cn.vuejs.org/index.html)
