@@ -1,4 +1,4 @@
-# [Flask Vue.js全栈开发的最新代码及使用方式](http://www.madmalls.com/blog/post/latest-code/)
+# [Flask Vue.js全栈开发的 `最新完整代码` 及使用方式](http://www.madmalls.com/blog/post/latest-code/)
 
 [![Python](https://img.shields.io/badge/python-v3.4%2B-blue.svg)](https://www.python.org/)
 [![Vue.js](https://img.shields.io/badge/Vue.js-v2.5.2-orange.svg)](https://cn.vuejs.org/index.html)
@@ -34,12 +34,12 @@
 - [Flask Vue.js全栈开发｜第14章：邮件支持](http://www.madmalls.com/blog/post/email-support/)
 - [Flask Vue.js全栈开发｜第15章：权限管理](http://www.madmalls.com/blog/post/rbac/)
 - [Flask Vue.js全栈开发｜第16章：管理后台](http://www.madmalls.com/blog/post/admin/)
-- [Flask Vue.js全栈开发｜第17章：Redis Queue实现后台任务](http://www.madmalls.com/blog/post/redis-queue/)
-- Elasticsearch全文搜索 (敬请期待)
-- 国际化 (敬请期待)
-- 性能优化 (敬请期待)
-- Linux云主机部署 (敬请期待)
-- Docker容器部署 (敬请期待)
+- [Flask Vue.js全栈开发｜第17章：RQ实现后台任务](http://www.madmalls.com/blog/post/redis-queue/)
+- [Flask Vue.js全栈开发｜第18章：Elasticsearch全文搜索](http://www.madmalls.com/blog/post/elasticsearch-for-madblog/)
+- [Flask Vue.js全栈开发｜第19章：国际化](http://www.madmalls.com/blog/post/i18n/)
+- [Flask Vue.js全栈开发｜第20章：Linux云主机部署](http://www.madmalls.com/blog/post/deployment-on-linux/)
+- [Flask Vue.js全栈开发｜第21章：Docker容器部署](http://www.madmalls.com/blog/post/deployment-on-docker-containers/)
+
 
 # 2. 如何使用
 
