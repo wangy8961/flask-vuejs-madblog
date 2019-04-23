@@ -8,6 +8,8 @@
 [![webpack](https://img.shields.io/badge/webpack-v3.6.0-brightgreen.svg)](https://webpack.js.org/)
 
 
+## 测试地址: [www.madblog.ga](http://www.madblog.ga)
+
 > 本系列的最新代码及使用方式将持续更新到： http://www.madmalls.com/blog/post/latest-code/
 
 
