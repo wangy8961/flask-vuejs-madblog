@@ -45,42 +45,4 @@
 
 # 2. 如何使用
 
-## 2.1 git clone
-
-```bash
-$ git clone https://github.com/wangy8961/flask-vuejs-madblog.git
-```
-
-## 2.2 Backend
-
-Open a new terminal:
-
-```bash
-$ cd back-end
-$ python -m venv venv
-$ source venv/bin/activate
-(venv)$ pip install -r requirements.txt
-
-# Flask-Migrate create database
-(venv)$ flask db upgrade
-
-# create back-end/.env file, like this
-FLASK_APP=madblog.py
-FLASK_DEBUG=1
-
-(venv)$ flask run
-```
-
-浏览器访问: `http://localhost:5000/api/ping`
-
-## 2.3 Frontend
-
-Open a new terminal:
-
-```bash
-$ cd front-end
-$ npm install
-$ npm run dev
-```
-
-浏览器访问: `http://localhost:8080`
+请参考第 20 章或第 21 章，推荐采用 Docker 容器部署
