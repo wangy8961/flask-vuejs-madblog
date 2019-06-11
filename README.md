@@ -1,4 +1,4 @@
-# [Flask Vue.js全栈开发](http://www.madmalls.com/blog/category/vuejs/) 
+# [Flask Vue.js全栈开发](http://www.madmalls.com/blog/category/vuejs/)
 
 [![Python](https://img.shields.io/badge/python-v3.4%2B-blue.svg)](https://www.python.org/)
 [![Vue.js](https://img.shields.io/badge/Vue.js-v2.5.2-orange.svg)](https://cn.vuejs.org/index.html)
@@ -10,7 +10,7 @@
 
 # <span style="color: red">测试地址： https://madblog.ga </span>
 
-**RESTful API：** https://madblog.ga:5000/api/posts ，或者将仓库内的 `flask-vuejs-madblog.postman_collection.json` 导入你的 `Postman` 工具
+**RESTful API：** https://madblog.ga:5000/api/posts （用 `Firefox` 查看返回的 `JSON` 数据更佳），或者将仓库内的 `flask-vuejs-madblog.postman_collection.json` 导入你的 `Postman` 工具
 
 > 本系列的最新代码及使用方式将持续更新到： http://www.madmalls.com/blog/post/latest-code/
 
@@ -47,7 +47,7 @@
 
 # 2. 如何使用
 
-# <span style="color: red">Github 仓库中只包含前半部分代码，获取最新完整代码请前往: [Flask Vue.js全栈开发](http://www.madmalls.com/blog/category/vuejs/) </span> 
+# <span style="color: red">Github 仓库中只包含前半部分代码，获取最新完整代码请前往: [Flask Vue.js全栈开发](http://www.madmalls.com/blog/category/vuejs/) </span>
 
 ## 2.1 git clone
 
