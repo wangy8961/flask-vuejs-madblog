@@ -10,7 +10,7 @@
 
 # <span style="color: red">测试地址： https://madblog.ga </span>
 
-**RESTful API：** https://madblog.ga:5000/api/posts，或者将 `flask-vuejs-madblog.postman_collection.json` 导入你的 `Postman` 工具
+**RESTful API：** https://madblog.ga:5000/api/posts， 或者将仓库内的 `flask-vuejs-madblog.postman_collection.json` 导入你的 `Postman` 工具
 
 > 本系列的最新代码及使用方式将持续更新到： http://www.madmalls.com/blog/post/latest-code/
 
