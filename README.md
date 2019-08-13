@@ -43,6 +43,8 @@
 - [Flask Vue.js全栈开发｜第19章：国际化](http://www.madmalls.com/blog/post/i18n/)
 - [Flask Vue.js全栈开发｜第20章：Linux云主机部署](http://www.madmalls.com/blog/post/deployment-on-linux/)
 - [Flask Vue.js全栈开发｜第21章：Docker容器部署](http://www.madmalls.com/blog/post/deployment-on-docker-containers/)
+- [Flask Vue.js全栈开发｜第22章：(番外篇) 用 Flask-RESTful 插件实现 API](https://madmalls.com/blog/post/designing-a-restful-api-using-flask-restful/)
+
 
 
 # 2. 如何使用
