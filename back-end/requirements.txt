@@ -17,7 +17,7 @@ itsdangerous==1.1.0
 Jinja2==2.10
 Mako==1.0.7
 MarkupSafe==1.0
-Pygments==2.2.0
+Pygments==2.7.4
 PyJWT==1.6.4
 python-dateutil==2.7.5
 python-dotenv==0.9.1
