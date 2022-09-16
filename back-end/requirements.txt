@@ -15,7 +15,7 @@ httpie==0.9.9
 idna==2.7
 itsdangerous==1.1.0
 Jinja2==2.10
-Mako==1.0.7
+Mako==1.2.2
 MarkupSafe==1.0
 Pygments==2.2.0
 PyJWT==1.6.4
